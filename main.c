@@ -50,7 +50,7 @@ void Adopt() {
 		int fd = open("Adopt.fifo", O_WRONLY);
 		if (fd < 0)
 			ERR_EXIT("open fifo error");
-		char str[] = "s_5\nend";
+		char str[] = "1111";
 		if (write(fd, str, strlen(str)+1) < 0)
 			ERR_EXIT("adopt write fifo error");
 		if (close(fd) < 0)
@@ -59,15 +59,7 @@ void Adopt() {
 	}
 
 	FILE *fp = fopen("Adopt.fifo", "r");
-	// char buf[MAX_CMD_LEN];
-	// fgets(buf, MAX_CMD_LEN, fp);
-	// Meet();
-	// while (true) {
-	// 	if (fgets(buf, MAX_CMD_LEN, fp) == NULL)
-	// 		continue;
-	// 	break;
-	// }
-	sleep(2);
+	sleep(1);
 	fclose(fp);
 	if (unlink("Adopt.fifo") < 0)
 		ERR_EXIT("unlink error");
