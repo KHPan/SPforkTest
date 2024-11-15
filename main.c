@@ -122,23 +122,6 @@ void print_final_graduate(){
         fprintf(stdout, "Congratulations! You've finished Not_Tako's annoying tasks!\n");
 }
 
-/* terminate child pseudo code
-void clean_child(){
-    close(child read_fd);
-    close(child write_fd);
-    call wait() or waitpid() to reap child; // this is blocking
-}
-
-*/
-
-/* remember read and write may not be fully transmitted in HW1?
-void fully_write(int write_fd, void *write_buf, int write_len);
-
-void fully_read(int read_fd, void *read_buf, int read_len);
-
-please do above 2 functions to save some time
-*/
-
 void Meet(char *parent, char *child) {
 	int fds[2][2];
 	if (pipe(fds[0]) < 0 || pipe(fds[1]) < 0) {
