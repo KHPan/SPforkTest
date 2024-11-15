@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
 		exit(0);
     }
 
-    while (fgets(command, MAX_CMD_LEN, stdin) != NULL && !feof(read_fp)) {
+    while (fgets(command, MAX_CMD_LEN, stdin) != NULL) {
         if (strlen(command) == 0)
             continue;
         if (command[strlen(command) - 1] == '\n')
