@@ -10,18 +10,15 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 
-#define PARENT_READ_FD 3
-#define PARENT_WRITE_FD 4
-#define MAX_CHILDREN 32
-#define MAX_CHILD_DEEP 8
-#define MAX_FIFO_NAME_LEN 9
+// #define PARENT_READ_FD 3
+// #define PARENT_WRITE_FD 4
+// #define MAX_CHILDREN 32
+// #define MAX_CHILD_DEEP 8
+// #define MAX_FIFO_NAME_LEN 9
 #define MAX_FRIEND_INFO_LEN 12
 #define MAX_FRIEND_NAME_LEN 9
 #define MAX_CMD_LEN 256
 #include <sys/types.h>
-// typedef struct {
-//     char name[MAX_FRIEND_NAME_LEN];
-// } friend;
 
 
 
@@ -55,10 +52,6 @@ void Meet(char *parent, char *child) {
 	if (pid == 0) {
 		execlp(program_name, program_name, child, NULL);
 	}
-	// friend *new_friend = (friend *)malloc(sizeof(friend));
-	// if (new_friend == NULL)
-	// 	ERR_EXIT("malloc new_friend error");
-	// strcpy(new_friend->name, child);
 }
 
 pid_t fork_pid = 0, old_friend_pid = 0;
