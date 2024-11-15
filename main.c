@@ -20,7 +20,6 @@
 
 // somethings I recommend leaving here, but you may delete as you please
 static char root[MAX_FRIEND_INFO_LEN] = "Not_Tako";     // root of tree
-static char friend_name[MAX_FRIEND_NAME_LEN];   // current process name
 FILE* read_fp = NULL;
 char program_name[MAX_CMD_LEN]; // program name
 
@@ -82,7 +81,6 @@ int main(int argc, char *argv[]) {
 	strcpy(program_name, argv[0]);
     
     if(strcmp(argv[1], root) == 0){
-        strcpy(friend_name, root);
         read_fp = stdin;        // takes commands from stdin
     }
     else{
