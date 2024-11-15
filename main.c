@@ -100,12 +100,13 @@ void Meet(char *parent, char *child) {
 	friend *new_friend = (friend *)malloc(sizeof(friend));
 	if (new_friend == NULL)
 		ERR_EXIT("malloc new_friend error");
-	new_friend->pid = pid;
-	new_friend->read_fd = fds[0][0];
-	new_friend->write_fd = fds[1][1];
-	strcpy(new_friend->info, child);
-	strcpy(new_friend->name, strtok(child, "_"));
-	new_friend->value = atoi(strtok(NULL, "_"));
+	// new_friend->pid = pid;
+	// new_friend->read_fd = fds[0][0];
+	// new_friend->write_fd = fds[1][1];
+	// strcpy(new_friend->info, child);
+	// strcpy(new_friend->name, strtok(child, "_"));
+	// new_friend->value = atoi(strtok(NULL, "_"));
+	new_friend->name = child;
 	for (int i = 0; i < MAX_CHILDREN; i++) {
 		if (children[i] == NULL) {
 			children[i] = new_friend;
