@@ -20,12 +20,7 @@
 #define MAX_CMD_LEN 256
 #include <sys/types.h>
 typedef struct {
-    // pid_t pid;
-    // int read_fd;
-    // int write_fd;
-    // char info[MAX_FRIEND_INFO_LEN];
     char name[MAX_FRIEND_NAME_LEN];
-    // int value;
 } friend;
 
 
@@ -98,11 +93,11 @@ void Meet(char *parent, char *child) {
 		if (i == MAX_CHILDREN - 1)
 			ERR_EXIT("children array full");
 	}
-	if (is_Not_Tako()) {
-	} else {
-		if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
-			ERR_EXIT("meet parent success write error");
-	}
+	// if (is_Not_Tako()) {
+	// } else {
+	// 	if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
+	// 		ERR_EXIT("meet parent success write error");
+	// }
 }
 
 pid_t fork_pid = 0, old_friend_pid = 0;
