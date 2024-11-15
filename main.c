@@ -125,13 +125,11 @@ pid_t fork_pid = 0, old_friend_pid = 0;
 char Adopt(char *parent, char *child) {
 	if (parent[0] == '$') { //第四次遞迴，把資料送進FIFO
         char ccmd[MAX_CMD_LEN], buf;
-        for (int i = 0; i < MAX_CHILDREN; i++) {
-            // if (children[i] == NULL)
-            //     break;
-			friend *old_friend = children[i];
-			for (int j = i; j < MAX_CHILDREN - 1; j++) {
-				children[j] = children[j + 1];
-			}
+        // for (int i = 0; i < MAX_CHILDREN; i++) {
+			friend *old_friend = children[0];
+			// for (int j = i; j < MAX_CHILDREN - 1; j++) {
+			// 	children[j] = children[j + 1];
+			// }
 			children[MAX_CHILDREN - 1] = NULL;
 			fork_pid = fork();
 			if (fork_pid < 0)
@@ -159,8 +157,8 @@ char Adopt(char *parent, char *child) {
 					ERR_EXIT("close fifo error");
 				exit(0);
 			}
-			break;
-        }
+		// 	break;
+        // }
         if (!is_Not_Tako()) {
             if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
                 ERR_EXIT("adopt parent write error");
