@@ -60,23 +60,23 @@ void Meet(char *parent, char *child) {
 	if (pid == 0) {
 		close(fds[0][0]);
 		close(fds[1][1]);
-		if (fds[0][1] != PARENT_WRITE_FD) {
-			if (fds[1][0] == PARENT_WRITE_FD) {
-				int new_fd = dup(fds[1][0]);
-				if (new_fd < 0)
-					ERR_EXIT("dup error");
-				close(fds[1][0]);
-				fds[1][0] = new_fd;
-			}
-			if (dup2(fds[0][1], PARENT_WRITE_FD) < 0)
-				ERR_EXIT("dup2 error");
-			close(fds[0][1]);
-		}
-		if (fds[1][0] != PARENT_READ_FD) {
-			if (dup2(fds[1][0], PARENT_READ_FD) < 0)
-				ERR_EXIT("dup2 error");
-			close(fds[1][0]);
-		}
+		// if (fds[0][1] != PARENT_WRITE_FD) {
+		// 	if (fds[1][0] == PARENT_WRITE_FD) {
+		// 		int new_fd = dup(fds[1][0]);
+		// 		if (new_fd < 0)
+		// 			ERR_EXIT("dup error");
+		// 		close(fds[1][0]);
+		// 		fds[1][0] = new_fd;
+		// 	}
+		// 	if (dup2(fds[0][1], PARENT_WRITE_FD) < 0)
+		// 		ERR_EXIT("dup2 error");
+		// 	close(fds[0][1]);
+		// }
+		// if (fds[1][0] != PARENT_READ_FD) {
+		// 	if (dup2(fds[1][0], PARENT_READ_FD) < 0)
+		// 		ERR_EXIT("dup2 error");
+		// 	close(fds[1][0]);
+		// }
 		execlp(program_name, program_name, child, NULL);
 	}
 	close(fds[0][1]);
@@ -178,17 +178,6 @@ int main(int argc, char *argv[]) {
         friend_value = 100;     // Not_Tako adopting nodes will not mod their values
     }
     else{
-        // char *sep = strchr(friend_info, '_');
-        // memset(friend_name, 0, MAX_FRIEND_NAME_LEN);
-        // strncpy(friend_name, friend_info, sep - friend_info);
-        // friend_value = atoi(sep + 1);
-        // // where do you read from?
-        // read_fp = fdopen(PARENT_READ_FD, "r");
-        // if (read_fp == NULL) {
-        //     ERR_EXIT("fdopen error");
-        // }
-        // fclose(stdin);
-        // // fclose(stdout);
 		int i = 0;
 		for (i = 0; i > -1; i++);
     }
