@@ -54,50 +54,50 @@ static inline bool is_Not_Tako() {
 }
 
 // a bunch of prints for you
-void print_direct_meet(char *new_friend_name) {
-    if (show)
-        fprintf(stdout, "Not_Tako has met %s by himself\n", new_friend_name);
-}
+// void print_direct_meet(char *new_friend_name) {
+//     if (show)
+//         fprintf(stdout, "Not_Tako has met %s by himself\n", new_friend_name);
+// }
 
-void print_indirect_meet(char *parent_friend_name, char *child_friend_name) {
-    if (show)
-        fprintf(stdout, "Not_Tako has met %s through %s\n", child_friend_name, parent_friend_name);
-}
+// void print_indirect_meet(char *parent_friend_name, char *child_friend_name) {
+//     if (show)
+//         fprintf(stdout, "Not_Tako has met %s through %s\n", child_friend_name, parent_friend_name);
+// }
 
-void print_fail_meet(char *parent_friend_name, char *child_friend_name) {
-    if (show)
-        fprintf(stdout, "Not_Tako does not know %s to meet %s\n", parent_friend_name, child_friend_name);
-}
+// void print_fail_meet(char *parent_friend_name, char *child_friend_name) {
+//     if (show)
+//         fprintf(stdout, "Not_Tako does not know %s to meet %s\n", parent_friend_name, child_friend_name);
+// }
 
-void print_fail_check(char *parent_friend_name){
-    if (show)
-        fprintf(stdout, "Not_Tako has checked, he doesn't know %s\n", parent_friend_name);
-}
+// void print_fail_check(char *parent_friend_name){
+//     if (show)
+//         fprintf(stdout, "Not_Tako has checked, he doesn't know %s\n", parent_friend_name);
+// }
 
-void print_success_adopt(char *parent_friend_name, char *child_friend_name) {
-    if (show)
-        fprintf(stdout, "%s has adopted %s\n", parent_friend_name, child_friend_name);
-}
+// void print_success_adopt(char *parent_friend_name, char *child_friend_name) {
+//     if (show)
+//         fprintf(stdout, "%s has adopted %s\n", parent_friend_name, child_friend_name);
+// }
 
-void print_fail_adopt(char *parent_friend_name, char *child_friend_name) {
-    if (show)
-        fprintf(stdout, "%s is a descendant of %s\n", parent_friend_name, child_friend_name);
-}
+// void print_fail_adopt(char *parent_friend_name, char *child_friend_name) {
+//     if (show)
+//         fprintf(stdout, "%s is a descendant of %s\n", parent_friend_name, child_friend_name);
+// }
 
-void print_compare_gtr(char *new_friend_name){
-    if (show)
-        fprintf(stdout, "Not_Tako is still friends with %s\n", new_friend_name);
-}
+// void print_compare_gtr(char *new_friend_name){
+//     if (show)
+//         fprintf(stdout, "Not_Tako is still friends with %s\n", new_friend_name);
+// }
 
-void print_compare_leq(char *new_friend_name){
-    if (show)
-        fprintf(stdout, "%s is dead to Not_Tako\n", new_friend_name);
-}
+// void print_compare_leq(char *new_friend_name){
+//     if (show)
+//         fprintf(stdout, "%s is dead to Not_Tako\n", new_friend_name);
+// }
 
-void print_final_graduate(){
-    if (show)
-        fprintf(stdout, "Congratulations! You've finished Not_Tako's annoying tasks!\n");
-}
+// void print_final_graduate(){
+//     if (show)
+//         fprintf(stdout, "Congratulations! You've finished Not_Tako's annoying tasks!\n");
+// }
 
 void Meet(char *parent, char *child) {
 	int fds[2][2];
@@ -161,7 +161,7 @@ void Meet(char *parent, char *child) {
 			ERR_EXIT("children array full");
 	}
 	if (is_Not_Tako()) {
-		print_direct_meet(new_friend->name);
+		// print_direct_meet(new_friend->name);
 	} else {
 		if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
 			ERR_EXIT("meet parent success write error");
@@ -262,7 +262,7 @@ char Adopt(char *parent, char *child) {
         fclose(fp);
         if (unlink("Adopt.fifo") < 0)
             ERR_EXIT("unlink error");
-        print_success_adopt(parent, child);
+        // print_success_adopt(parent, child);
     }
     return success_feedback;
 }
