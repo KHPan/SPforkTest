@@ -140,55 +140,55 @@ please do above 2 functions to save some time
 */
 
 void Meet(char *parent, char *child) {
-	// int fds[2][2];
-	// if (pipe(fds[0]) < 0 || pipe(fds[1]) < 0) {
-	// 	ERR_EXIT("pipe create error");
-	// }
-	// pid_t pid = fork();
-	// if (pid < 0) {
-	// 	ERR_EXIT("fork error");
-	// }
-	// if (pid == 0) {
-	// 	if (is_Not_Tako()) {
-	// 		fclose(stdin);
-	// 	}
-	// 	for (int i = 0; i < MAX_CHILDREN; i++) {
-	// 		if (children[i] != NULL) {
-	// 			if (close(children[i]->read_fd) < 0)
-	// 				ERR_EXIT("close read_fd error");
-	// 			if (close(children[i]->write_fd) < 0)
-	// 				ERR_EXIT("close write_fd error");
-	// 		}
-	// 	}
-	// 	close(fds[0][0]);
-	// 	close(fds[1][1]);
-	// 	if (fds[0][1] != PARENT_WRITE_FD) {
-	// 		if (fds[1][0] == PARENT_WRITE_FD) {
-	// 			int new_fd = dup(fds[1][0]);
-	// 			if (new_fd < 0)
-	// 				ERR_EXIT("dup error");
-	// 			close(fds[1][0]);
-	// 			fds[1][0] = new_fd;
-	// 		}
-	// 		if (dup2(fds[0][1], PARENT_WRITE_FD) < 0)
-	// 			ERR_EXIT("dup2 error");
-	// 		close(fds[0][1]);
-	// 	}
-	// 	if (fds[1][0] != PARENT_READ_FD) {
-	// 		if (dup2(fds[1][0], PARENT_READ_FD) < 0)
-	// 			ERR_EXIT("dup2 error");
-	// 		close(fds[1][0]);
-	// 	}
-	// 	execlp(program_name, program_name, child, NULL);
-	// }
-	// close(fds[0][1]);
-	// close(fds[1][0]);
+	int fds[2][2];
+	if (pipe(fds[0]) < 0 || pipe(fds[1]) < 0) {
+		ERR_EXIT("pipe create error");
+	}
+	pid_t pid = fork();
+	if (pid < 0) {
+		ERR_EXIT("fork error");
+	}
+	if (pid == 0) {
+		if (is_Not_Tako()) {
+			fclose(stdin);
+		}
+		for (int i = 0; i < MAX_CHILDREN; i++) {
+			if (children[i] != NULL) {
+				if (close(children[i]->read_fd) < 0)
+					ERR_EXIT("close read_fd error");
+				if (close(children[i]->write_fd) < 0)
+					ERR_EXIT("close write_fd error");
+			}
+		}
+		close(fds[0][0]);
+		close(fds[1][1]);
+		if (fds[0][1] != PARENT_WRITE_FD) {
+			if (fds[1][0] == PARENT_WRITE_FD) {
+				int new_fd = dup(fds[1][0]);
+				if (new_fd < 0)
+					ERR_EXIT("dup error");
+				close(fds[1][0]);
+				fds[1][0] = new_fd;
+			}
+			if (dup2(fds[0][1], PARENT_WRITE_FD) < 0)
+				ERR_EXIT("dup2 error");
+			close(fds[0][1]);
+		}
+		if (fds[1][0] != PARENT_READ_FD) {
+			if (dup2(fds[1][0], PARENT_READ_FD) < 0)
+				ERR_EXIT("dup2 error");
+			close(fds[1][0]);
+		}
+		execlp(program_name, program_name, child, NULL);
+	}
+	close(fds[0][1]);
+	close(fds[1][0]);
 	friend *new_friend = (friend *)malloc(sizeof(friend));
 	if (new_friend == NULL)
 		ERR_EXIT("malloc new_friend error");
-	// new_friend->pid = pid;
-	// new_friend->read_fd = fds[0][0];
-	// new_friend->write_fd = fds[1][1];
+	new_friend->pid = pid;
+	new_friend->read_fd = fds[0][0];
+	new_friend->write_fd = fds[1][1];
 	strcpy(new_friend->info, child);
 	strcpy(new_friend->name, strtok(child, "_"));
 	new_friend->value = atoi(strtok(NULL, "_"));
@@ -247,10 +247,10 @@ char Adopt(char *parent, char *child) {
                         ERR_EXIT("close fifo error");
                     exit(0);
                 }
-                // if (close(old_friend->read_fd) < 0)
-                //     ERR_EXIT("close read_fd error");
-                // if (close(old_friend->write_fd) < 0)
-                //     ERR_EXIT("close write_fd error");
+                if (close(old_friend->read_fd) < 0)
+                    ERR_EXIT("close read_fd error");
+                if (close(old_friend->write_fd) < 0)
+                    ERR_EXIT("close write_fd error");
                 old_friend_pid = old_friend->pid;
                 free(old_friend);
                 break;
