@@ -12,11 +12,14 @@
 //
 int main(int argc, char *argv[]) {
 	char buf[1024];
+	if (argc > 1) {
+		while (true);
+	}
 	if (fork() == 0) {
 		#ifdef CLOSE
 		fclose(stdin);
 		#endif
-		while (true);
+		execlp(argv[0], argv[0], "1", NULL);
 	}
 	while (fgets(buf, sizeof(buf), stdin) != NULL) {
 		printf("%s", buf);
