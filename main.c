@@ -1,4 +1,3 @@
-// #define _GNU_SOURCE
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -52,7 +51,7 @@ void Meet(char *parent, char *child) {
 pid_t fork_pid = 0, old_friend_pid = 0;
 char Adopt(char *parent, char *child) {
 	if (parent[0] == '$') { //第四次遞迴，把資料送進FIFO
-        char ccmd[MAX_CMD_LEN], buf;
+        // char ccmd[MAX_CMD_LEN], buf;
 		fork_pid = fork();
 		if (fork_pid < 0)
 			ERR_EXIT("fork error");
@@ -78,8 +77,9 @@ char Adopt(char *parent, char *child) {
 		int parent_value = 100;
         if (mkfifo("Adopt.fifo", 0666) < 0 && errno != EEXIST)
             ERR_EXIT("mkfifo error");
-        sprintf(check_parent, "$%d", parent_value);
-        Adopt(check_parent, child);
+        // sprintf(check_parent, "$%d", parent_value);
+        // Adopt(check_parent, child);
+		Adopt("$", "");
         FILE *fp = fopen("Adopt.fifo", "r");
         char buf[MAX_CMD_LEN];
         fgets(buf, MAX_CMD_LEN, fp);
