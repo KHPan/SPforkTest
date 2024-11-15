@@ -82,6 +82,7 @@ int main(int argc, char *argv[]) {
     }
 
 	Meet();
+	Meet();
 	Adopt();
     while (fgets(command, MAX_CMD_LEN, stdin) != NULL) {
 		if (command[strlen(command)-1] == '\n')
