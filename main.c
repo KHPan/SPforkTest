@@ -106,7 +106,7 @@ void Meet(char *parent, char *child) {
 	// strcpy(new_friend->info, child);
 	// strcpy(new_friend->name, strtok(child, "_"));
 	// new_friend->value = atoi(strtok(NULL, "_"));
-	new_friend->name = child;
+	strcpy(new_friend->name, child);
 	for (int i = 0; i < MAX_CHILDREN; i++) {
 		if (children[i] == NULL) {
 			children[i] = new_friend;
