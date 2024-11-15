@@ -140,7 +140,7 @@ please do above 2 functions to save some time
 */
 
 void Meet(char *parent, char *child) {
-    if (strcmp(parent, friend_name) == 0) {  
+    // if (strcmp(parent, friend_name) == 0) {  
         //     create array[2]
         int fds[2][2];
         //     make pipe
@@ -216,124 +216,38 @@ void Meet(char *parent, char *child) {
             if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
                 ERR_EXIT("meet parent success write error");
         }
-    } else {
-        char buf, ccmd[MAX_CMD_LEN];
-        sprintf(ccmd, "Meet %s %s", parent, child);
-        for (int i = 0; i < MAX_CHILDREN; i++) {
-            if (children[i] == NULL) {
-                if (is_Not_Tako()) {
-                    print_fail_meet(parent, strtok(child, "_"));
-                } else {
-                    if (write(PARENT_WRITE_FD, &fail_feedback, 1) < 0)
-                        ERR_EXIT("meet parent fail write error");
-                }
-                break;
-            }
+    // } else {
+    //     char buf, ccmd[MAX_CMD_LEN];
+    //     sprintf(ccmd, "Meet %s %s", parent, child);
+    //     for (int i = 0; i < MAX_CHILDREN; i++) {
+    //         if (children[i] == NULL) {
+    //             if (is_Not_Tako()) {
+    //                 print_fail_meet(parent, strtok(child, "_"));
+    //             } else {
+    //                 if (write(PARENT_WRITE_FD, &fail_feedback, 1) < 0)
+    //                     ERR_EXIT("meet parent fail write error");
+    //             }
+    //             break;
+    //         }
             
-            if (write(children[i]->write_fd, ccmd,
-                        strlen(ccmd)) < 0 ||
-                    write(children[i]->write_fd, "\n", 1) < 0)
-                ERR_EXIT("meet child write error");
-            if (read(children[i]->read_fd, &buf, 1) < 0)
-                ERR_EXIT("meet chlid read error");
-            if (buf == success_feedback) {
-                if (is_Not_Tako()) {
-                    print_indirect_meet(parent, strtok(child, "_"));
-                } else {
-                    if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
-                        ERR_EXIT("meet parent success write error");
-                }
-                break;
-            }
-        }
-    }
+    //         if (write(children[i]->write_fd, ccmd,
+    //                     strlen(ccmd)) < 0 ||
+    //                 write(children[i]->write_fd, "\n", 1) < 0)
+    //             ERR_EXIT("meet child write error");
+    //         if (read(children[i]->read_fd, &buf, 1) < 0)
+    //             ERR_EXIT("meet chlid read error");
+    //         if (buf == success_feedback) {
+    //             if (is_Not_Tako()) {
+    //                 print_indirect_meet(parent, strtok(child, "_"));
+    //             } else {
+    //                 if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
+    //                     ERR_EXIT("meet parent success write error");
+    //             }
+    //             break;
+    //         }
+    //     }
+    // }
 }
-
-// void Check(char *name) {
-//     if (name[0] != '_') {
-//         if (strcmp(name, friend_name) == 0) {
-//             printf("%s\n", friend_info);
-//             bool exist;
-//             char buf, ccmd[MAX_CMD_LEN];
-//             for (int i = 1; i <= MAX_CHILD_DEEP; i++) {
-//                 exist = false;
-//                 sprintf(ccmd, "Check _%d", i);
-//                 for (int j = 0; j < MAX_CHILDREN; j++) {
-//                     if (children[j] != NULL) {
-//                         if (write(children[j]->write_fd, ccmd,
-//                                     strlen(ccmd)) < 0 ||
-//                             write(children[j]->write_fd, "\n", 1) < 0)
-//                             ERR_EXIT("check child write error");
-//                         if (read(children[j]->read_fd, &buf, 1) < 0)
-//                             ERR_EXIT("check child read error");
-//                         if (buf == success_feedback)
-//                             exist = true;
-//                     }
-//                 }
-//                 if (!exist)
-//                     break;
-//                 fseek(stdout, -1, SEEK_END);
-//                 printf("\n");
-//             }
-//             if (!is_Not_Tako())
-//                 write(PARENT_WRITE_FD, &success_feedback, 1);
-//         } else {
-//             char buf, ccmd[MAX_CMD_LEN];
-//             sprintf(ccmd, "Check %s", name);
-//             for (int i = 0; i < MAX_CHILDREN; i++) {
-//                 if (children[i] == NULL) {
-//                     if (is_Not_Tako()) {
-//                         print_fail_check(name);
-//                     } else {
-//                         if (write(PARENT_WRITE_FD, &fail_feedback, 1) < 0)
-//                             ERR_EXIT("check parent fail write error");
-//                     }
-//                     break;
-//                 }
-//                 if (write(children[i]->write_fd, ccmd,
-//                             strlen(ccmd)) < 0 ||
-//                     write(children[i]->write_fd, "\n", 1) < 0)
-//                     ERR_EXIT("check child write error");
-//                 if (read(children[i]->read_fd, &buf, 1) < 0)
-//                     ERR_EXIT("check child read error");
-//                 if (buf == success_feedback) {
-//                     if (!is_Not_Tako()) {
-//                         write(PARENT_WRITE_FD, &success_feedback, 1);
-//                     }
-//                     break;
-//                 }
-//             }
-//         }
-//     } else {
-//         int deep = atoi(name + 1);
-//         if (deep == 1) {
-//             fseek(stdout, 0, SEEK_END);
-//             printf("%s ", friend_info);
-//             if (!is_Not_Tako())
-//                 write(PARENT_WRITE_FD, &success_feedback, 1);
-//         } else {
-//             char ccmd[MAX_CMD_LEN], buf;
-//             sprintf(ccmd, "Check _%d", deep - 1);
-//             bool exist = false;
-//             for (int i = 0; i < MAX_CHILDREN; i++) {
-//                 if (children[i] != NULL) {
-//                     if (write(children[i]->write_fd, ccmd,
-//                                 strlen(ccmd)) < 0 ||
-//                         write(children[i]->write_fd, "\n", 1) < 0)
-//                         ERR_EXIT("check child write error");
-//                     if (read(children[i]->read_fd, &buf, 1) < 0)
-//                         ERR_EXIT("check child read error");
-//                     if (buf == success_feedback)
-//                         exist = true;
-//                 }
-//             }
-//             if (exist)
-//                 write(PARENT_WRITE_FD, &success_feedback, 1);
-//             else
-//                 write(PARENT_WRITE_FD, &fail_feedback, 1); 
-//         }
-//     }
-// }
 
 pid_t fork_pid = 0, old_friend_pid = 0;
 char Adopt(char *parent, char *child) {
@@ -667,10 +581,6 @@ int main(int argc, char *argv[]) {
             char *child = strtok(NULL, " ");
             Meet(parent, child);
         }
-        // else if (strcmp(main_cmd, "Check") == 0) {
-        //     char *name = strtok(NULL, " ");
-        //     Check(name);
-        // }
         else if (strcmp(main_cmd, "Adopt") == 0) {
             char *parent = strtok(NULL, " ");
             char *child = strtok(NULL, " ");
