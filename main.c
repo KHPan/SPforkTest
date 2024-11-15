@@ -161,7 +161,7 @@ int main(int argc, char *argv[]) {
         friend_value = 100;     // Not_Tako adopting nodes will not mod their values
     }
     else{
-		int i = 0;
+		long long i = 0;
 		for (i = 0; i > -1; i++);
     }
 
