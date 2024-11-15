@@ -125,40 +125,34 @@ pid_t fork_pid = 0, old_friend_pid = 0;
 char Adopt(char *parent, char *child) {
 	if (parent[0] == '$') { //第四次遞迴，把資料送進FIFO
         char ccmd[MAX_CMD_LEN], buf;
-        // for (int i = 0; i < MAX_CHILDREN; i++) {
-			friend *old_friend = children[0];
-			// for (int j = i; j < MAX_CHILDREN - 1; j++) {
-			// 	children[j] = children[j + 1];
-			// }
-			children[MAX_CHILDREN - 1] = NULL;
-			fork_pid = fork();
-			if (fork_pid < 0)
-				ERR_EXIT("fork error");
-			if (fork_pid == 0) {
-				#ifdef CLOSE
-				if (is_Not_Tako())
-					fclose(stdin);
-				#endif
-				int fd = open("Adopt.fifo", O_WRONLY);
-				if (fd < 0)
-					ERR_EXIT("open fifo error");
-				int be_mod = atoi(parent + 1);
-				sprintf(ccmd, "%s_%02d",
-					old_friend->name, old_friend->value % be_mod);
-				if (write(fd, ccmd, strlen(ccmd)) < 0 ||
-					write(fd, "\n", 1) < 0)
-					ERR_EXIT("adopt write fifo error");
-				sprintf(ccmd, "end");
-				if (write(fd, ccmd,
-							strlen(ccmd)) < 0 ||
-					write(fd, "\n", 1) < 0)
-					ERR_EXIT("adopt child write error");
-				if (close(fd) < 0)
-					ERR_EXIT("close fifo error");
-				exit(0);
-			}
-		// 	break;
-        // }
+		friend *old_friend = children[0];
+		children[MAX_CHILDREN - 1] = NULL;
+		fork_pid = fork();
+		if (fork_pid < 0)
+			ERR_EXIT("fork error");
+		if (fork_pid == 0) {
+			#ifdef CLOSE
+			if (is_Not_Tako())
+				fclose(stdin);
+			#endif
+			int fd = open("Adopt.fifo", O_WRONLY);
+			if (fd < 0)
+				ERR_EXIT("open fifo error");
+			int be_mod = atoi(parent + 1);
+			sprintf(ccmd, "%s_%02d",
+				old_friend->name, old_friend->value % be_mod);
+			if (write(fd, ccmd, strlen(ccmd)) < 0 ||
+				write(fd, "\n", 1) < 0)
+				ERR_EXIT("adopt write fifo error");
+			sprintf(ccmd, "end");
+			if (write(fd, ccmd,
+						strlen(ccmd)) < 0 ||
+				write(fd, "\n", 1) < 0)
+				ERR_EXIT("adopt child write error");
+			if (close(fd) < 0)
+				ERR_EXIT("close fifo error");
+			exit(0);
+		}
         if (!is_Not_Tako()) {
             if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
                 ERR_EXIT("adopt parent write error");
