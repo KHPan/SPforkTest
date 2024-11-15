@@ -16,7 +16,7 @@
 
 
 
-#define ERR_EXIT(s) {char msg[1024]; sprintf(msg, "friend %s happen: %s", friend_name, s); perror(msg), exit(errno);}
+#define ERR_EXIT(s) perror(msg), exit(errno)
 
 char fail_feedback = 1;
 char success_feedback = 0;
