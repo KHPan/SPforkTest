@@ -86,16 +86,6 @@ int main(int argc, char *argv[]) {
     }
 
     while (fgets(command, MAX_CMD_LEN, stdin) != NULL) {
-        if (strlen(command) == 0)
-            continue;
-        if (command[strlen(command) - 1] == '\n')
-            command[strlen(command) - 1] = '\0';
-        if (command[strlen(command) - 1] == '\r')
-            command[strlen(command) - 1] = '\0';
-        if (strlen(command) == 0)
-            continue;
-        char command_copy[MAX_CMD_LEN];
-        strcpy(command_copy, command);
 		fprintf(stderr, "%lld command: %s\n", getpid(), command);
 			
         char *main_cmd = strtok(command, " ");
