@@ -36,29 +36,6 @@ char fail_feedback = 1;
 char success_feedback = 0;
 pid_t process_pid;
 
-/*
-If you need help from TAs,
-please remember :
-0. Show your efforts
-    0.1 Fully understand course materials
-    0.2 Read the spec thoroughly, including frequently updated FAQ section
-    0.3 Use online resources
-    0.4 Ask your friends while avoiding plagiarism, they might be able to understand you better, since the TAs know the solution, 
-        they might not understand what you're trying to do as quickly as someone who is also doing this homework.
-1. be respectful
-2. the quality of your question will directly impact the value of the response you get.
-3. think about what you want from your question, what is the response you expect to get
-4. what do you want the TA to help you with. 
-    4.0 Unrelated to Homework (wsl, workstation, systems configuration)
-    4.1 Debug
-    4.2 Logic evaluation (we may answer doable yes or no, but not always correct or incorrect, as it might be giving out the solution)
-    4.3 Spec details inquiry
-    4.4 Testcase possibility
-5. If the solution to answering your question requires the TA to look at your code, you probably shouldn't ask it.
-6. We CANNOT tell you the answer, but we can tell you how your current effort may approach it.
-7. If you come with nothing, we cannot help you with anything.
-*/
-
 // somethings I recommend leaving here, but you may delete as you please
 static char root[MAX_FRIEND_INFO_LEN] = "Not_Tako";     // root of tree
 static bool show = true;    // 在root上到底要不要show
@@ -183,12 +160,12 @@ void Meet(char *parent, char *child) {
 		if (i == MAX_CHILDREN - 1)
 			ERR_EXIT("children array full");
 	}
-	// if (is_Not_Tako()) {
-	// 	print_direct_meet(new_friend->name);
-	// } else {
-	// 	if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
-	// 		ERR_EXIT("meet parent success write error");
-	// }
+	if (is_Not_Tako()) {
+		print_direct_meet(new_friend->name);
+	} else {
+		if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
+			ERR_EXIT("meet parent success write error");
+	}
 }
 
 pid_t fork_pid = 0, old_friend_pid = 0;
