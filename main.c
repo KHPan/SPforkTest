@@ -25,13 +25,13 @@ char program_name[MAX_CMD_LEN]; // program name
 char command[MAX_CMD_LEN]; // command buffer
 
 void Meet() {
-	pid_t pid = fork();
-	if (pid < 0) {
-		ERR_EXIT("fork error");
-	}
-	if (pid == 0) {
-		execlp(program_name, program_name, "A", NULL);
-	}
+	// pid_t pid = fork();
+	// if (pid < 0) {
+	// 	ERR_EXIT("fork error");
+	// }
+	// if (pid == 0) {
+	// 	execlp(program_name, program_name, "A", NULL);
+	// }
 }
 
 void Adopt() {
