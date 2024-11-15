@@ -157,12 +157,13 @@ char Adopt(char *parent, char *child) {
         FILE *fp = fopen("Adopt.fifo", "r");
         char buf[MAX_CMD_LEN];
         fgets(buf, MAX_CMD_LEN, fp);
-        if (buf[strlen(buf) - 1] == '\n')
-            buf[strlen(buf) - 1] = '\0';
-        char to_meet[MAX_CMD_LEN];
-        strcpy(to_meet, buf);
-        show = false;
-        Meet(parent, to_meet);
+        // if (buf[strlen(buf) - 1] == '\n')
+        //     buf[strlen(buf) - 1] = '\0';
+        // char to_meet[MAX_CMD_LEN];
+        // strcpy(to_meet, buf);
+        // show = false;
+        // Meet(parent, to_meet);
+		Meet("a", "B_2");
         while (true) {
             if (fgets(buf, MAX_CMD_LEN, fp) == NULL)
                 continue;
