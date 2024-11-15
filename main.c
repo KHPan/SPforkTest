@@ -81,16 +81,16 @@ int main(int argc, char *argv[]) {
 		exit(0);
     }
 
-    while (fgets(command, MAX_CMD_LEN, stdin) != NULL) {
+    for (int i = 0; fgets(command, MAX_CMD_LEN, stdin) != NULL; i++) {
 		if (command[strlen(command)-1] == '\n')
 			command[strlen(command)-1] = '\0';
 		fprintf(stderr, "%lld command: %s\n", getpid(), command);
 			
         char *main_cmd = strtok(command, " ");
-        if (strcmp(main_cmd, "Meet") == 0) {
+        if (i < 2) {
             Meet();
         }
-        else if (strcmp(main_cmd, "Adopt") == 0) {
+        else if (i == 2) {
             Adopt();
 		}
     }
