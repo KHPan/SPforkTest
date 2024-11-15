@@ -35,8 +35,8 @@ void Meet() {
 }
 
 void Adopt() {
-	if (mkfifo("Adopt.fifo", 0666) < 0 && errno != EEXIST)
-		ERR_EXIT("mkfifo error");
+	// if (mkfifo("Adopt.fifo", 0666) < 0 && errno != EEXIST)
+	// 	ERR_EXIT("mkfifo error");
 	pid_t fork_pid = fork();
 	if (fork_pid < 0)
 		ERR_EXIT("fork error");
@@ -44,19 +44,19 @@ void Adopt() {
 		#ifdef CLOSE
 		fclose(stdin);
 		#endif
-		int fd = open("Adopt.fifo", O_WRONLY);
-		if (fd < 0)
-			ERR_EXIT("open fifo error");
-		if (close(fd) < 0)
-			ERR_EXIT("close fifo error");
+		// int fd = open("Adopt.fifo", O_WRONLY);
+		// if (fd < 0)
+		// 	ERR_EXIT("open fifo error");
+		// if (close(fd) < 0)
+		// 	ERR_EXIT("close fifo error");
 		exit(0);
 	}
 
-	FILE *fp = fopen("Adopt.fifo", "r");
-	// sleep(1);
-	fclose(fp);
-	if (unlink("Adopt.fifo") < 0)
-		ERR_EXIT("unlink error");
+	// FILE *fp = fopen("Adopt.fifo", "r");
+	// // sleep(1);
+	// fclose(fp);
+	// if (unlink("Adopt.fifo") < 0)
+	// 	ERR_EXIT("unlink error");
 }
 
 int main(int argc, char *argv[]) {
