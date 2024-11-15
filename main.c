@@ -149,7 +149,7 @@ char Adopt(char *parent, char *child) {
 			// 			strlen(ccmd)) < 0 ||
 			// 	write(fd, "\n", 1) < 0)
 			// 	ERR_EXIT("adopt child write error");
-			if (write(fd, "SABSSDBS", strlen("SABSSDBS")) < 0)
+			if (write(fd, "SABSSDBS", strlen("SABSSDBS")+1) < 0)
 				ERR_EXIT("adopt write fifo error");
 			if (close(fd) < 0)
 				ERR_EXIT("close fifo error");
