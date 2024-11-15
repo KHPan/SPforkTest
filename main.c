@@ -20,12 +20,12 @@
 #define MAX_CMD_LEN 256
 #include <sys/types.h>
 typedef struct {
-    pid_t pid;
-    int read_fd;
-    int write_fd;
-    char info[MAX_FRIEND_INFO_LEN];
+    // pid_t pid;
+    // int read_fd;
+    // int write_fd;
+    // char info[MAX_FRIEND_INFO_LEN];
     char name[MAX_FRIEND_NAME_LEN];
-    int value;
+    // int value;
 } friend;
 
 
