@@ -335,103 +335,6 @@ void Check(char *name) {
     }
 }
 
-void Graduate(char *name) { 
-    if (strcmp(name, friend_name) == 0) {
-        if (strcmp(name, root) == 0)
-            Check(name);
-        for (int i = 0; i < MAX_CHILDREN; i++) {
-            if (children[i] != NULL) {
-                char ccmd[MAX_CMD_LEN];
-                sprintf(ccmd, "Graduate %s", children[i]->name);
-                if (write(children[i]->write_fd, ccmd,
-                            strlen(ccmd)) < 0 ||
-                    write(children[i]->write_fd, "\n", 1) < 0)
-                    ERR_EXIT("graduate child write error");
-                char buf;
-                if (read(children[i]->read_fd, &buf, 1) < 0)
-                    ERR_EXIT("graduate child read error");
-                if (close(children[i]->read_fd) < 0)
-                    ERR_EXIT("close read_fd error");
-                if (close(children[i]->write_fd) < 0)
-                    ERR_EXIT("close write_fd error");
-                waitpid(children[i]->pid, NULL, 0);
-                free(children[i]);
-                children[i] = NULL;
-            }
-        }
-        if (is_Not_Tako()) {
-            print_final_graduate();
-        } else {
-            if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
-                ERR_EXIT("graduate parent success write error");
-        }
-        exit(0);
-    } else {
-        for (int i = 0; i < MAX_CHILDREN; i++) {
-            if (children[i] != NULL && (
-                    strcmp(children[i]->name, name) == 0)) {
-                char ccmd[MAX_CMD_LEN], buf;
-                sprintf(ccmd, "Check %s", name);
-                if (write(children[i]->write_fd, ccmd,
-                            strlen(ccmd)) < 0 ||
-                    write(children[i]->write_fd, "\n", 1) < 0)
-                    ERR_EXIT("graduate child write error");
-                if (read(children[i]->read_fd, &buf, 1) < 0)
-                    ERR_EXIT("graduate child read error");
-                
-                sprintf(ccmd, "Graduate %s", name);
-                if (write(children[i]->write_fd, ccmd,
-                            strlen(ccmd)) < 0 ||
-                    write(children[i]->write_fd, "\n", 1) < 0)
-                    ERR_EXIT("graduate child write error");
-                if (read(children[i]->read_fd, &buf, 1) < 0)
-                    ERR_EXIT("graduate child read error");
-                if (close(children[i]->read_fd) < 0)
-                    ERR_EXIT("close read_fd error");
-                if (close(children[i]->write_fd) < 0)
-                    ERR_EXIT("close write_fd error");
-                waitpid(children[i]->pid, NULL, 0);
-                free(children[i]);
-                for (int j = i; j < MAX_CHILDREN - 1; j++) {
-                    children[j] = children[j + 1];
-                }
-                children[MAX_CHILDREN - 1] = NULL;
-                if (!is_Not_Tako()) {
-                    if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
-                        ERR_EXIT("graduate parent success write error");
-                }
-                return;
-            }
-        }
-        for (int i = 0; i < MAX_CHILDREN; i++) {
-            if (children[i] == NULL) {
-                if (is_Not_Tako()) {
-                    print_fail_check(name);
-                } else {
-                    if (write(PARENT_WRITE_FD, &fail_feedback, 1) < 0)
-                        ERR_EXIT("graduate parent fail write error");
-                }
-                break;
-            }
-            char ccmd[MAX_CMD_LEN], buf;
-            sprintf(ccmd, "Graduate %s", name);
-            if (write(children[i]->write_fd, ccmd,
-                        strlen(ccmd)) < 0 ||
-                write(children[i]->write_fd, "\n", 1) < 0)
-                ERR_EXIT("graduate child write error");
-            if (read(children[i]->read_fd, &buf, 1) < 0)
-                ERR_EXIT("graduate child read error");
-            if (buf == success_feedback) {
-                if (!is_Not_Tako()) {
-                    if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
-                        ERR_EXIT("graduate parent success write error");
-                }
-                break;
-            }
-        }
-    }
-}
-
 pid_t fork_pid = 0, old_friend_pid = 0;
 char Adopt(char *parent, char *child) {
     if (parent[0] == '!') { //第一次遞迴，確認child與parent相對位置
@@ -757,22 +660,8 @@ int main(int argc, char *argv[]) {
         strcpy(command_copy, command);
 		if (is_Not_Tako())
 			fprintf(stderr, "%lld command: %s\n", getpid(), command);
-        //TODO:
-        // you may follow SOP if you wish, but it is not guaranteed to consider every possible outcome
-
-        // 1. read from parent/stdin
-        // 2. determine what the command is (Meet, Check, Adopt, Graduate, Compare(bonus)), I recommend using strcmp() and/or char check
-
+			
         char *main_cmd = strtok(command, " ");
-        // 3. find out who should execute the command (extract information received)
-        // 4. execute the command or tell the requested friend to execute the command
-        //     4.1 command passing may be required here
-        // 5. after previous command is done, repeat step 1.
-
-        // Hint: do not return before receiving the command "Graduate"
-        // please keep in mind that every process runs this exact same program, so think of all the possible cases and implement them
-
-        //  pseudo code
         if (strcmp(main_cmd, "Meet") == 0) {
             char *parent = strtok(NULL, " ");
             char *child = strtok(NULL, " ");
@@ -781,47 +670,12 @@ int main(int argc, char *argv[]) {
         else if (strcmp(main_cmd, "Check") == 0) {
             char *name = strtok(NULL, " ");
             Check(name);
-        //     obtain the info of this subtree, what are their info?
-        //     distribute the info into levels 1 to 7 (refer to Additional Specifications: subtree level <= 7)
-        //     use above distribution to print out level by level
-        //         Q: why do above? can you make each process print itself?
-        //         Hint: we can only print line by line, is DFS or BFS better in this case?
-        }
-        else if (strcmp(main_cmd, "Graduate") == 0) {
-            char *name = strtok(NULL, " ");
-            Graduate(name);
-        //     perform Check
-        //     terminate the entire subtree
-        //         Q1: what resources have to be cleaned up and why?
-        //         Hint: Check pseudo code above
-        //         Q2: what commands needs to be executed? what are their orders to avoid deadlock or infinite blocking?
-        //         A: (tell child to die, reap child, tell parent you're dead, return (die))
         }
         else if (strcmp(main_cmd, "Adopt") == 0) {
             char *parent = strtok(NULL, " ");
             char *child = strtok(NULL, " ");
             Adopt(parent, child);
-        //     remember to make fifo
-        //     obtain the info of child node subtree, what are their info?
-        //         Q: look at the info you got, how do you know where they are in the subtree?
-        //         Hint: Think about how to recreate the subtree to design your info format
-        //     A. terminate the entire child node subtree
-        //     B. send the info through FIFO to parent node
-        //         Q: why FIFO? will usin pipe here work? why of why not?
-        //         Hint: Think about time efficiency, and message length
-        //     C. parent node recreate the child node subtree with the obtained info
-        //         Q: which of A, B and C should be done first? does parent child position in the tree matter?
-        //         Hint: when does blocking occur when using FIFO?(mkfifo, open, read, write, unlink)
-        //     please remember to mod the values of the subtree, you may use bruteforce methods to do this part (I did)
-        //     also remember to print the output
-        }
-        // else if(full_cmd[1] == 'o'){
-        //     Bonus has no hints :D
-        // }
-        // else{
-        //     there's an error, we only have valid commmands in the test cases
-        //     fprintf(stderr, "%s received error input : %s\n", friend_name, full_cmd); // use this to print out what you received
-        // }
+		}
     }
 	return 0;
 }
