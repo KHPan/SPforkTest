@@ -35,48 +35,41 @@ void Meet() {
 }
 
 pid_t fork_pid = 0, old_friend_pid = 0;
-void Adopt(char parent) {
-	if (parent == '$') { //第四次遞迴，把資料送進FIFO
+void Adopt() {
+	char check_parent[MAX_CMD_LEN];
+	int parent_value = 100;
+	if (mkfifo("Adopt.fifo", 0666) < 0 && errno != EEXIST)
+		ERR_EXIT("mkfifo error");
+	fork_pid = fork();
+	if (fork_pid < 0)
+		ERR_EXIT("fork error");
+	if (fork_pid == 0) {
+		#ifdef CLOSE
+		fclose(stdin);
+		#endif
+		int fd = open("Adopt.fifo", O_WRONLY);
+		if (fd < 0)
+			ERR_EXIT("open fifo error");
+		char str[] = "s_5\nend";
+		if (write(fd, str, strlen(str)+1) < 0)
+			ERR_EXIT("adopt write fifo error");
+		if (close(fd) < 0)
+			ERR_EXIT("close fifo error");
+		exit(0);
+	}
 
-    }
-    else {
-        char check_parent[MAX_CMD_LEN];
-		int parent_value = 100;
-        if (mkfifo("Adopt.fifo", 0666) < 0 && errno != EEXIST)
-            ERR_EXIT("mkfifo error");
-		// Adopt('$');
-
-		fork_pid = fork();
-		if (fork_pid < 0)
-			ERR_EXIT("fork error");
-		if (fork_pid == 0) {
-			#ifdef CLOSE
-			fclose(stdin);
-			#endif
-			int fd = open("Adopt.fifo", O_WRONLY);
-			if (fd < 0)
-				ERR_EXIT("open fifo error");
-			char str[] = "s_5\nend";
-			if (write(fd, str, strlen(str)+1) < 0)
-				ERR_EXIT("adopt write fifo error");
-			if (close(fd) < 0)
-				ERR_EXIT("close fifo error");
-			exit(0);
-		}
-
-        FILE *fp = fopen("Adopt.fifo", "r");
-        char buf[MAX_CMD_LEN];
-        fgets(buf, MAX_CMD_LEN, fp);
-		Meet();
-        while (true) {
-            if (fgets(buf, MAX_CMD_LEN, fp) == NULL)
-                continue;
-            break;
-        }
-        fclose(fp);
-        if (unlink("Adopt.fifo") < 0)
-            ERR_EXIT("unlink error");
-    }
+	FILE *fp = fopen("Adopt.fifo", "r");
+	char buf[MAX_CMD_LEN];
+	fgets(buf, MAX_CMD_LEN, fp);
+	Meet();
+	while (true) {
+		if (fgets(buf, MAX_CMD_LEN, fp) == NULL)
+			continue;
+		break;
+	}
+	fclose(fp);
+	if (unlink("Adopt.fifo") < 0)
+		ERR_EXIT("unlink error");
 }
 
 int main(int argc, char *argv[]) {
@@ -98,7 +91,7 @@ int main(int argc, char *argv[]) {
             Meet();
         }
         else if (strcmp(main_cmd, "Adopt") == 0) {
-            Adopt(' ');
+            Adopt();
 		}
     }
 	return 0;
