@@ -65,7 +65,7 @@ void Adopt() {
 int main(int argc, char *argv[]) {
 	strcpy(program_name, argv[0]);
     
-    if (strcmp(argv[1], root) != 0) {
+    if (argc > 1) {
 		long long i = 0;
 		for (i = 0; i > -1; i++);
 		exit(0);
