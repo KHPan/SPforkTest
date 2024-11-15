@@ -40,7 +40,7 @@ static int friend_value;    // current process value
 FILE* read_fp = NULL;
 char program_name[MAX_CMD_LEN]; // program name
 
-friend *children[MAX_CHILDREN] = {0}; // array of children
+// friend *children[MAX_CHILDREN] = {0}; // array of children
 char command[MAX_CMD_LEN]; // command buffer
 
 // Is Root of tree
@@ -49,41 +49,33 @@ static inline bool is_Not_Tako() {
 }
 
 void Meet(char *parent, char *child) {
-	// int fds[2][2];
-	// if (pipe(fds[0]) < 0 || pipe(fds[1]) < 0) {
-	// 	ERR_EXIT("pipe create error");
-	// }
 	pid_t pid = fork();
 	if (pid < 0) {
 		ERR_EXIT("fork error");
 	}
 	if (pid == 0) {
-		// close(fds[0][0]);
-		// close(fds[1][1]);
 		execlp(program_name, program_name, child, NULL);
 	}
-	// close(fds[0][1]);
-	// close(fds[1][0]);
 	friend *new_friend = (friend *)malloc(sizeof(friend));
 	if (new_friend == NULL)
 		ERR_EXIT("malloc new_friend error");
 	strcpy(new_friend->name, child);
-	for (int i = 0; i < MAX_CHILDREN; i++) {
-		if (children[i] == NULL) {
-			children[i] = new_friend;
-			break;
-		}
-		if (i == MAX_CHILDREN - 1)
-			ERR_EXIT("children array full");
-	}
+	// for (int i = 0; i < MAX_CHILDREN; i++) {
+	// 	if (children[i] == NULL) {
+	// 		children[i] = new_friend;
+	// 		break;
+	// 	}
+	// 	if (i == MAX_CHILDREN - 1)
+	// 		ERR_EXIT("children array full");
+	// }
 }
 
 pid_t fork_pid = 0, old_friend_pid = 0;
 char Adopt(char *parent, char *child) {
 	if (parent[0] == '$') { //第四次遞迴，把資料送進FIFO
         char ccmd[MAX_CMD_LEN], buf;
-		friend *old_friend = children[0];
-		children[MAX_CHILDREN - 1] = NULL;
+		// friend *old_friend = children[0];
+		// children[MAX_CHILDREN - 1] = NULL;
 		fork_pid = fork();
 		if (fork_pid < 0)
 			ERR_EXIT("fork error");
