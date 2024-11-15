@@ -145,10 +145,6 @@ char Adopt(char *parent, char *child) {
 				ERR_EXIT("close fifo error");
 			exit(0);
 		}
-        // if (!is_Not_Tako()) {
-        //     if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
-        //         ERR_EXIT("adopt parent write error");
-        // }
         return success_feedback;
     }
     else if (is_Not_Tako()) {
@@ -160,13 +156,14 @@ char Adopt(char *parent, char *child) {
         Adopt(check_parent, child);
         FILE *fp = fopen("Adopt.fifo", "r");
         char buf[MAX_CMD_LEN];
-        fgets(buf, MAX_CMD_LEN, fp);
-        if (buf[strlen(buf) - 1] == '\n')
-            buf[strlen(buf) - 1] = '\0';
-        char to_meet[MAX_CMD_LEN];
-        strcpy(to_meet, buf);
-        show = false;
-        Meet(parent, to_meet);
+        // fgets(buf, MAX_CMD_LEN, fp);
+        // if (buf[strlen(buf) - 1] == '\n')
+        //     buf[strlen(buf) - 1] = '\0';
+        // char to_meet[MAX_CMD_LEN];
+        // strcpy(to_meet, buf);
+        // show = false;
+        // Meet(parent, to_meet);
+		Meet("A", "B");
         while (true) {
             if (fgets(buf, MAX_CMD_LEN, fp) == NULL)
                 continue;
