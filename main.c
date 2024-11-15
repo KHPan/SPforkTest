@@ -24,7 +24,6 @@ pid_t process_pid;
 
 // somethings I recommend leaving here, but you may delete as you please
 static char root[MAX_FRIEND_INFO_LEN] = "Not_Tako";     // root of tree
-static bool show = true;    // 在root上到底要不要show
 static char friend_info[MAX_FRIEND_INFO_LEN];   // current process info
 static char friend_name[MAX_FRIEND_NAME_LEN];   // current process name
 static int friend_value;    // current process value
@@ -80,22 +79,12 @@ char Adopt(char *parent, char *child) {
         FILE *fp = fopen("Adopt.fifo", "r");
         char buf[MAX_CMD_LEN];
         fgets(buf, MAX_CMD_LEN, fp);
-        show = false;
 		Meet("A", "B");
         while (true) {
             if (fgets(buf, MAX_CMD_LEN, fp) == NULL)
                 continue;
-            // if (buf[strlen(buf) - 1] == '\n')
-            //     buf[strlen(buf) - 1] = '\0';
-            // char *main_cmd = strtok(buf, " ");
-            // if (strcmp(main_cmd, "Meet") == 0) {
-            //     char *mparent = strtok(NULL, " ");
-            //     char *mchild = strtok(NULL, " ");
-            //     Meet(mparent, mchild);
-            // } else if (strcmp(main_cmd, "end") == 0)
-                break;
+            break;
         }
-        // show = true;
         fclose(fp);
         if (unlink("Adopt.fifo") < 0)
             ERR_EXIT("unlink error");
