@@ -168,13 +168,13 @@ char Adopt(char *parent, char *child) {
                 free(old_friend);
                 break;
             }
-            sprintf(ccmd, "Adopt %s %s", parent, child);
-            if (write(children[i]->write_fd, ccmd,
-                        strlen(ccmd)) < 0 ||
-                write(children[i]->write_fd, "\n", 1) < 0)
-                ERR_EXIT("adopt child write error");
-            if (read(children[i]->read_fd, &buf, 1) < 0)
-                ERR_EXIT("adopt child read error");
+            // sprintf(ccmd, "Adopt %s %s", parent, child);
+            // if (write(children[i]->write_fd, ccmd,
+            //             strlen(ccmd)) < 0 ||
+            //     write(children[i]->write_fd, "\n", 1) < 0)
+            //     ERR_EXIT("adopt child write error");
+            // if (read(children[i]->read_fd, &buf, 1) < 0)
+            //     ERR_EXIT("adopt child read error");
         }
         if (!is_Not_Tako()) {
             if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
