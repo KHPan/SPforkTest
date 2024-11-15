@@ -26,11 +26,6 @@ char program_name[MAX_CMD_LEN]; // program name
 
 char command[MAX_CMD_LEN]; // command buffer
 
-// Is Root of tree
-static inline bool is_Not_Tako() {
-    return (strcmp(friend_name, root) == 0);
-}
-
 void Meet() {
 	pid_t pid = fork();
 	if (pid < 0) {
@@ -49,8 +44,7 @@ void Adopt(char parent) {
 			ERR_EXIT("fork error");
 		if (fork_pid == 0) {
 			#ifdef CLOSE
-			if (is_Not_Tako())
-				fclose(stdin);
+			fclose(stdin);
 			#endif
 			int fd = open("Adopt.fifo", O_WRONLY);
 			if (fd < 0)
@@ -107,8 +101,7 @@ int main(int argc, char *argv[]) {
             continue;
         char command_copy[MAX_CMD_LEN];
         strcpy(command_copy, command);
-		if (is_Not_Tako())
-			fprintf(stderr, "%lld command: %s\n", getpid(), command);
+		fprintf(stderr, "%lld command: %s\n", getpid(), command);
 			
         char *main_cmd = strtok(command, " ");
         if (strcmp(main_cmd, "Meet") == 0) {
