@@ -16,7 +16,7 @@
 
 
 
-#define ERR_EXIT(s) perror(msg), exit(errno)
+#define ERR_EXIT(s) perror(m), exit(errno)
 
 char fail_feedback = 1;
 char success_feedback = 0;
