@@ -749,7 +749,7 @@ int main(int argc, char *argv[]) {
             continue;
         char command_copy[MAX_CMD_LEN];
         strcpy(command_copy, command);
-		fprintf(stderr, "command: %s\n", command);
+		fprintf(stderr, "%lld command: %s\n", getpid(), command);
         //TODO:
         // you may follow SOP if you wish, but it is not guaranteed to consider every possible outcome
 
