@@ -19,6 +19,9 @@
 #define MAX_FRIEND_NAME_LEN 9
 #define MAX_CMD_LEN 256
 #include <sys/types.h>
+typedef struct {
+    char name[MAX_FRIEND_NAME_LEN];
+} friend;
 
 
 
