@@ -128,7 +128,7 @@ char Adopt(char *parent, char *child) {
         for (int i = 0; i < MAX_CHILDREN; i++) {
             if (children[i] == NULL)
                 break;
-            if (strcmp(children[i]->name, child) == 0) {
+            // if (strcmp(children[i]->name, child) == 0) {
                 friend *old_friend = children[i];
                 for (int j = i; j < MAX_CHILDREN - 1; j++) {
                     children[j] = children[j + 1];
@@ -160,14 +160,14 @@ char Adopt(char *parent, char *child) {
                         ERR_EXIT("close fifo error");
                     exit(0);
                 }
-                if (close(old_friend->read_fd) < 0)
-                    ERR_EXIT("close read_fd error");
-                if (close(old_friend->write_fd) < 0)
-                    ERR_EXIT("close write_fd error");
-                old_friend_pid = old_friend->pid;
-                free(old_friend);
+            //     if (close(old_friend->read_fd) < 0)
+            //         ERR_EXIT("close read_fd error");
+            //     if (close(old_friend->write_fd) < 0)
+            //         ERR_EXIT("close write_fd error");
+            //     old_friend_pid = old_friend->pid;
+            //     free(old_friend);
                 break;
-            }
+            // }
         }
         if (!is_Not_Tako()) {
             if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
