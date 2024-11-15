@@ -140,113 +140,74 @@ please do above 2 functions to save some time
 */
 
 void Meet(char *parent, char *child) {
-    // if (strcmp(parent, friend_name) == 0) {  
-        //     create array[2]
-        int fds[2][2];
-        //     make pipe
-        if (pipe(fds[0]) < 0 || pipe(fds[1]) < 0) {
-            ERR_EXIT("pipe create error");
-        }
-        //     use fork.
-        pid_t pid = fork();
-        if (pid < 0) {
-            ERR_EXIT("fork error");
-        }
-        //         Hint: remember to fully understand how fork works, what it copies or doesn't
-        //     check if you are parent or child
-        if (pid == 0) {
-			#ifdef CLOSE
-            if (is_Not_Tako()) {
-                fclose(stdin);
-            }
-			#endif
-            for (int i = 0; i < MAX_CHILDREN; i++) {
-                if (children[i] != NULL) {
-                    if (close(children[i]->read_fd) < 0)
-                        ERR_EXIT("close read_fd error");
-                    if (close(children[i]->write_fd) < 0)
-                        ERR_EXIT("close write_fd error");
-                }
-            }
-            close(fds[0][0]);
-            close(fds[1][1]);
-            if (fds[0][1] != PARENT_WRITE_FD) {
-                if (fds[1][0] == PARENT_WRITE_FD) {
-                    int new_fd = dup(fds[1][0]);
-                    if (new_fd < 0)
-                        ERR_EXIT("dup error");
-                    close(fds[1][0]);
-                    fds[1][0] = new_fd;
-                }
-                if (dup2(fds[0][1], PARENT_WRITE_FD) < 0)
-                    ERR_EXIT("dup2 error");
-                close(fds[0][1]);
-            }
-            if (fds[1][0] != PARENT_READ_FD) {
-                if (dup2(fds[1][0], PARENT_READ_FD) < 0)
-                    ERR_EXIT("dup2 error");
-                close(fds[1][0]);
-            }
-            execlp(program_name, program_name, child, NULL);
-        }
-        //     as parent or child, think about what you do next.
-        //         Hint: child needs to run this program again
-        close(fds[0][1]);
-        close(fds[1][0]);
-        friend *new_friend = (friend *)malloc(sizeof(friend));
-        if (new_friend == NULL)
-            ERR_EXIT("malloc new_friend error");
-        new_friend->pid = pid;
-        new_friend->read_fd = fds[0][0];
-        new_friend->write_fd = fds[1][1];
-        strcpy(new_friend->info, child);
-        strcpy(new_friend->name, strtok(child, "_"));
-        new_friend->value = atoi(strtok(NULL, "_"));
-        for (int i = 0; i < MAX_CHILDREN; i++) {
-            if (children[i] == NULL) {
-                children[i] = new_friend;
-                break;
-            }
-            if (i == MAX_CHILDREN - 1)
-                ERR_EXIT("children array full");
-        }
-        if (is_Not_Tako()) {
-            print_direct_meet(new_friend->name);
-        } else {
-            if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
-                ERR_EXIT("meet parent success write error");
-        }
-    // } else {
-    //     char buf, ccmd[MAX_CMD_LEN];
-    //     sprintf(ccmd, "Meet %s %s", parent, child);
-    //     for (int i = 0; i < MAX_CHILDREN; i++) {
-    //         if (children[i] == NULL) {
-    //             if (is_Not_Tako()) {
-    //                 print_fail_meet(parent, strtok(child, "_"));
-    //             } else {
-    //                 if (write(PARENT_WRITE_FD, &fail_feedback, 1) < 0)
-    //                     ERR_EXIT("meet parent fail write error");
-    //             }
-    //             break;
-    //         }
-            
-    //         if (write(children[i]->write_fd, ccmd,
-    //                     strlen(ccmd)) < 0 ||
-    //                 write(children[i]->write_fd, "\n", 1) < 0)
-    //             ERR_EXIT("meet child write error");
-    //         if (read(children[i]->read_fd, &buf, 1) < 0)
-    //             ERR_EXIT("meet chlid read error");
-    //         if (buf == success_feedback) {
-    //             if (is_Not_Tako()) {
-    //                 print_indirect_meet(parent, strtok(child, "_"));
-    //             } else {
-    //                 if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
-    //                     ERR_EXIT("meet parent success write error");
-    //             }
-    //             break;
-    //         }
-    //     }
-    // }
+	int fds[2][2];
+	if (pipe(fds[0]) < 0 || pipe(fds[1]) < 0) {
+		ERR_EXIT("pipe create error");
+	}
+	pid_t pid = fork();
+	if (pid < 0) {
+		ERR_EXIT("fork error");
+	}
+	if (pid == 0) {
+		#ifdef CLOSE
+		if (is_Not_Tako()) {
+			fclose(stdin);
+		}
+		#endif
+		for (int i = 0; i < MAX_CHILDREN; i++) {
+			if (children[i] != NULL) {
+				if (close(children[i]->read_fd) < 0)
+					ERR_EXIT("close read_fd error");
+				if (close(children[i]->write_fd) < 0)
+					ERR_EXIT("close write_fd error");
+			}
+		}
+		close(fds[0][0]);
+		close(fds[1][1]);
+		if (fds[0][1] != PARENT_WRITE_FD) {
+			if (fds[1][0] == PARENT_WRITE_FD) {
+				int new_fd = dup(fds[1][0]);
+				if (new_fd < 0)
+					ERR_EXIT("dup error");
+				close(fds[1][0]);
+				fds[1][0] = new_fd;
+			}
+			if (dup2(fds[0][1], PARENT_WRITE_FD) < 0)
+				ERR_EXIT("dup2 error");
+			close(fds[0][1]);
+		}
+		if (fds[1][0] != PARENT_READ_FD) {
+			if (dup2(fds[1][0], PARENT_READ_FD) < 0)
+				ERR_EXIT("dup2 error");
+			close(fds[1][0]);
+		}
+		execlp(program_name, program_name, child, NULL);
+	}
+	close(fds[0][1]);
+	close(fds[1][0]);
+	friend *new_friend = (friend *)malloc(sizeof(friend));
+	if (new_friend == NULL)
+		ERR_EXIT("malloc new_friend error");
+	new_friend->pid = pid;
+	new_friend->read_fd = fds[0][0];
+	new_friend->write_fd = fds[1][1];
+	strcpy(new_friend->info, child);
+	strcpy(new_friend->name, strtok(child, "_"));
+	new_friend->value = atoi(strtok(NULL, "_"));
+	for (int i = 0; i < MAX_CHILDREN; i++) {
+		if (children[i] == NULL) {
+			children[i] = new_friend;
+			break;
+		}
+		if (i == MAX_CHILDREN - 1)
+			ERR_EXIT("children array full");
+	}
+	if (is_Not_Tako()) {
+		print_direct_meet(new_friend->name);
+	} else {
+		if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
+			ERR_EXIT("meet parent success write error");
+	}
 }
 
 pid_t fork_pid = 0, old_friend_pid = 0;
@@ -486,7 +447,7 @@ char Adopt(char *parent, char *child) {
         }
         sprintf(check_parent, "#%s", parent);
         int parent_value = Adopt(check_parent, child) - 2;
-        if (mkfifo("Adopt.fifo", 0666) < 0)
+        if (mkfifo("Adopt.fifo", 0666) < 0 && errno != EEXIST)
             ERR_EXIT("mkfifo error");
         sprintf(check_parent, "$%d", parent_value);
         Adopt(check_parent, child);
