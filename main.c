@@ -50,9 +50,9 @@ void Adopt() {
 		int fd = open("Adopt.fifo", O_WRONLY);
 		if (fd < 0)
 			ERR_EXIT("open fifo error");
-		char str[] = "1111";
-		if (write(fd, str, strlen(str)+1) < 0)
-			ERR_EXIT("adopt write fifo error");
+		// char str[] = "1111";
+		// if (write(fd, str, strlen(str)+1) < 0)
+		// 	ERR_EXIT("adopt write fifo error");
 		if (close(fd) < 0)
 			ERR_EXIT("close fifo error");
 		exit(0);
