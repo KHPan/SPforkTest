@@ -103,10 +103,10 @@ int main(int argc, char *argv[]) {
     setvbuf(stdout, NULL, _IONBF, 0); // prevent buffered I/O, equivalent to fflush() after each stdout, study this as you may need to do it for other friends against their parents
     
     // put argument one into friend_info
-    strncpy(friend_info, argv[1], MAX_FRIEND_INFO_LEN);
+    // strncpy(friend_info, argv[1], MAX_FRIEND_INFO_LEN);
     
     if(strcmp(argv[1], root) == 0){
-        memset(friend_name, 0, MAX_FRIEND_NAME_LEN);
+        // memset(friend_name, 0, MAX_FRIEND_NAME_LEN);
         strcpy(friend_name, root);
         read_fp = stdin;        // takes commands from stdin
         friend_value = 100;     // Not_Tako adopting nodes will not mod their values
