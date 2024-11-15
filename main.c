@@ -1,4 +1,4 @@
-#define _GNU_SOURCE
+// #define _GNU_SOURCE
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -10,11 +10,6 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 
-// #define PARENT_READ_FD 3
-// #define PARENT_WRITE_FD 4
-// #define MAX_CHILDREN 32
-// #define MAX_CHILD_DEEP 8
-// #define MAX_FIFO_NAME_LEN 9
 #define MAX_FRIEND_INFO_LEN 12
 #define MAX_FRIEND_NAME_LEN 9
 #define MAX_CMD_LEN 256
