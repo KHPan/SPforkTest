@@ -24,16 +24,6 @@ char program_name[MAX_CMD_LEN]; // program name
 
 char command[MAX_CMD_LEN]; // command buffer
 
-void Meet() {
-	// pid_t pid = fork();
-	// if (pid < 0) {
-	// 	ERR_EXIT("fork error");
-	// }
-	// if (pid == 0) {
-	// 	execlp(program_name, program_name, "A", NULL);
-	// }
-}
-
 void Adopt() {
 	if (mkfifo("Adopt.fifo", 0666) < 0 && errno != EEXIST)
 		ERR_EXIT("mkfifo error");
@@ -72,10 +62,7 @@ int main(int argc, char *argv[]) {
 		fprintf(stderr, "%lld command: %s\n", getpid(), command);
 			
         char *main_cmd = strtok(command, " ");
-        if (i < 2) {
-            Meet();
-        }
-        else if (i == 2) {
+        if (i == 2) {
             Adopt();
 		}
     }
