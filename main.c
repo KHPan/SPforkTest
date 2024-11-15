@@ -28,11 +28,7 @@ void Adopt() {
 		ERR_EXIT("unlink error");
 }
 
-int main(int argc, char *argv[]) {
-    if (argc > 1) {
-		exit(0);
-    }
-
+int main() {
 	char command[1024];
     for (int i = 0; fgets(command, 1024, stdin) != NULL; i++) {
 		if (command[strlen(command)-1] == '\n')
