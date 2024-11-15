@@ -19,9 +19,6 @@
 #define MAX_FRIEND_NAME_LEN 9
 #define MAX_CMD_LEN 256
 #include <sys/types.h>
-typedef struct {
-    char name[MAX_FRIEND_NAME_LEN];
-} friend;
 
 
 
@@ -40,7 +37,6 @@ static int friend_value;    // current process value
 FILE* read_fp = NULL;
 char program_name[MAX_CMD_LEN]; // program name
 
-// friend *children[MAX_CHILDREN] = {0}; // array of children
 char command[MAX_CMD_LEN]; // command buffer
 
 // Is Root of tree
@@ -60,22 +56,12 @@ void Meet(char *parent, char *child) {
 	if (new_friend == NULL)
 		ERR_EXIT("malloc new_friend error");
 	strcpy(new_friend->name, child);
-	// for (int i = 0; i < MAX_CHILDREN; i++) {
-	// 	if (children[i] == NULL) {
-	// 		children[i] = new_friend;
-	// 		break;
-	// 	}
-	// 	if (i == MAX_CHILDREN - 1)
-	// 		ERR_EXIT("children array full");
-	// }
 }
 
 pid_t fork_pid = 0, old_friend_pid = 0;
 char Adopt(char *parent, char *child) {
 	if (parent[0] == '$') { //第四次遞迴，把資料送進FIFO
         char ccmd[MAX_CMD_LEN], buf;
-		// friend *old_friend = children[0];
-		// children[MAX_CHILDREN - 1] = NULL;
 		fork_pid = fork();
 		if (fork_pid < 0)
 			ERR_EXIT("fork error");
