@@ -8,7 +8,8 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <sys/types.h>
-
+#include <time.h>
+//
 int main(int argc, char *argv[]) {
 	char buf[1024];
 	if (fork() == 0) {
@@ -19,6 +20,7 @@ int main(int argc, char *argv[]) {
 	}
 	while (fgets(buf, sizeof(buf), stdin) != NULL) {
 		printf("%s", buf);
+		sleep(1);
 	}
 	return 0;
 }
