@@ -35,7 +35,6 @@ int main() {
 			command[strlen(command)-1] = '\0';
 		fprintf(stderr, "%lld command: %s\n", (long long)getpid(), command);
 			
-        char *main_cmd = strtok(command, " ");
         if (i == 2) {
             Adopt();
 		}
