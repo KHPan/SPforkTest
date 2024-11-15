@@ -8,17 +8,9 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <sys/types.h>
-
-#define MAX_FRIEND_INFO_LEN 12
-#define MAX_FRIEND_NAME_LEN 9
-#define MAX_CMD_LEN 256
 #include <sys/types.h>
 
-
-
 #define ERR_EXIT(s) perror(s), exit(errno)
-
-char command[MAX_CMD_LEN]; // command buffer
 
 void Adopt() {
 	if (mkfifo("Adopt.fifo", 0666) < 0 && errno != EEXIST)
@@ -49,7 +41,8 @@ int main(int argc, char *argv[]) {
 		exit(0);
     }
 
-    for (int i = 0; fgets(command, MAX_CMD_LEN, stdin) != NULL; i++) {
+	char command[1024];
+    for (int i = 0; fgets(command, 1024, stdin) != NULL; i++) {
 		if (command[strlen(command)-1] == '\n')
 			command[strlen(command)-1] = '\0';
 		fprintf(stderr, "%lld command: %s\n", getpid(), command);
