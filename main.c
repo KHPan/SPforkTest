@@ -63,17 +63,17 @@ void Meet(char *parent, char *child) {
 		ERR_EXIT("fork error");
 	}
 	if (pid == 0) {
-		if (is_Not_Tako()) {
-			fclose(stdin);
-		}
-		for (int i = 0; i < MAX_CHILDREN; i++) {
-			if (children[i] != NULL) {
-				if (close(children[i]->read_fd) < 0)
-					ERR_EXIT("close read_fd error");
-				if (close(children[i]->write_fd) < 0)
-					ERR_EXIT("close write_fd error");
-			}
-		}
+		// if (is_Not_Tako()) {
+		// 	fclose(stdin);
+		// }
+		// for (int i = 0; i < MAX_CHILDREN; i++) {
+		// 	if (children[i] != NULL) {
+		// 		if (close(children[i]->read_fd) < 0)
+		// 			ERR_EXIT("close read_fd error");
+		// 		if (close(children[i]->write_fd) < 0)
+		// 			ERR_EXIT("close write_fd error");
+		// 	}
+		// }
 		close(fds[0][0]);
 		close(fds[1][1]);
 		if (fds[0][1] != PARENT_WRITE_FD) {
