@@ -18,10 +18,6 @@
 
 #define ERR_EXIT(s) perror(s), exit(errno)
 
-// somethings I recommend leaving here, but you may delete as you please
-static char root[MAX_FRIEND_INFO_LEN] = "Not_Tako";     // root of tree
-char program_name[MAX_CMD_LEN]; // program name
-
 char command[MAX_CMD_LEN]; // command buffer
 
 void Adopt() {
@@ -49,8 +45,6 @@ void Adopt() {
 }
 
 int main(int argc, char *argv[]) {
-	strcpy(program_name, argv[0]);
-    
     if (argc > 1) {
 		exit(0);
     }
