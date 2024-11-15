@@ -48,8 +48,8 @@ void Meet() {
 }
 
 pid_t fork_pid = 0, old_friend_pid = 0;
-char Adopt(char *parent, char *child) {
-	if (parent[0] == '$') { //第四次遞迴，把資料送進FIFO
+char Adopt(char parent) {
+	if (parent == '$') { //第四次遞迴，把資料送進FIFO
 		fork_pid = fork();
 		if (fork_pid < 0)
 			ERR_EXIT("fork error");
@@ -75,7 +75,7 @@ char Adopt(char *parent, char *child) {
 		int parent_value = 100;
         if (mkfifo("Adopt.fifo", 0666) < 0 && errno != EEXIST)
             ERR_EXIT("mkfifo error");
-		Adopt("$", "");
+		Adopt('$');
         FILE *fp = fopen("Adopt.fifo", "r");
         char buf[MAX_CMD_LEN];
         fgets(buf, MAX_CMD_LEN, fp);
@@ -124,9 +124,7 @@ int main(int argc, char *argv[]) {
             Meet();
         }
         else if (strcmp(main_cmd, "Adopt") == 0) {
-            char *parent = strtok(NULL, " ");
-            char *child = strtok(NULL, " ");
-            Adopt(parent, child);
+            Adopt(' ');
 		}
     }
 	return 0;
