@@ -34,7 +34,7 @@ int main() {
 		if (command[strlen(command)-1] == '\n')
 			command[strlen(command)-1] = '\0';
 		fprintf(stderr, "%lld command: %s\n", (long long)getpid(), command);
-		if (i == 0)
+		if (i == 2)
 			Adopt();
     }
 	return 0;
