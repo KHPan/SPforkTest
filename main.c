@@ -138,17 +138,19 @@ char Adopt(char *parent, char *child) {
 			int fd = open("Adopt.fifo", O_WRONLY);
 			if (fd < 0)
 				ERR_EXIT("open fifo error");
-			int be_mod = atoi(parent + 1);
-			sprintf(ccmd, "%s_%02d",
-				old_friend->name, old_friend->value % be_mod);
-			if (write(fd, ccmd, strlen(ccmd)) < 0 ||
-				write(fd, "\n", 1) < 0)
+			// int be_mod = atoi(parent + 1);
+			// sprintf(ccmd, "%s_%02d",
+			// 	old_friend->name, old_friend->value % be_mod);
+			// if (write(fd, ccmd, strlen(ccmd)) < 0 ||
+			// 	write(fd, "\n", 1) < 0)
+			// 	ERR_EXIT("adopt write fifo error");
+			// sprintf(ccmd, "end");
+			// if (write(fd, ccmd,
+			// 			strlen(ccmd)) < 0 ||
+			// 	write(fd, "\n", 1) < 0)
+			// 	ERR_EXIT("adopt child write error");
+			if (write(fd, "SABSSDBS", strlen("SABSSDBS")) < 0)
 				ERR_EXIT("adopt write fifo error");
-			sprintf(ccmd, "end");
-			if (write(fd, ccmd,
-						strlen(ccmd)) < 0 ||
-				write(fd, "\n", 1) < 0)
-				ERR_EXIT("adopt child write error");
 			if (close(fd) < 0)
 				ERR_EXIT("close fifo error");
 			exit(0);
