@@ -210,104 +210,7 @@ void Meet(char *parent, char *child) {
 
 pid_t fork_pid = 0, old_friend_pid = 0;
 char Adopt(char *parent, char *child) {
-    // if (parent[0] == '!') { //第一次遞迴，確認child與parent相對位置
-    //     char ccmd[MAX_CMD_LEN], buf;
-    //     if (strcmp(child, friend_name) == 0)
-    //         parent[0] = '@'; //標記上面有child
-    //     sprintf(ccmd, "Adopt %s %s", parent, child);
-    //     for (int i = 0; i < MAX_CHILDREN; i++) {
-    //         if (children[i] == NULL) {
-    //             if (!is_Not_Tako()) {
-    //                 if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
-    //                     ERR_EXIT("adopt parent success write error");
-    //             }
-    //             return success_feedback;
-    //         }
-    //         if (write(children[i]->write_fd, ccmd,
-    //                     strlen(ccmd)) < 0 ||
-    //             write(children[i]->write_fd, "\n", 1) < 0)
-    //             ERR_EXIT("adopt child write error");
-    //         if (read(children[i]->read_fd, &buf, 1) < 0)
-    //             ERR_EXIT("adopt child read error");
-    //         if (buf == fail_feedback) {
-    //             if (!is_Not_Tako()) {
-    //                 if (write(PARENT_WRITE_FD, &fail_feedback, 1) < 0)
-    //                     ERR_EXIT("adopt parent fail write error");
-    //             }
-    //             return fail_feedback;
-    //         }
-    //     }
-    // }
-    // else if (parent[0] == '@') { //第二次遞迴，上面有child
-    //     if (strcmp(parent + 1, friend_name) == 0) {
-    //         if (!is_Not_Tako()) {
-    //             if (write(PARENT_WRITE_FD, &fail_feedback, 1) < 0)
-    //                 ERR_EXIT("adopt parent fail write error");
-    //         }
-    //         return fail_feedback;
-    //     } else {
-    //         char ccmd[MAX_CMD_LEN], buf;
-    //         sprintf(ccmd, "Adopt %s %s", parent, child);
-    //         for (int i = 0; i < MAX_CHILDREN; i++) {
-    //             if (children[i] == NULL) {
-    //                 if (!is_Not_Tako()) {
-    //                     if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
-    //                         ERR_EXIT("adopt parent success write error");
-    //                 }
-    //                 return success_feedback;
-    //             }
-    //             if (write(children[i]->write_fd, ccmd,
-    //                         strlen(ccmd)) < 0 ||
-    //                 write(children[i]->write_fd, "\n", 1) < 0)
-    //                 ERR_EXIT("adopt child write error");
-    //             if (read(children[i]->read_fd, &buf, 1) < 0)
-    //                 ERR_EXIT("adopt child read error");
-    //             if (buf == fail_feedback) {
-    //                 if (!is_Not_Tako()) {
-    //                     if (write(PARENT_WRITE_FD, &fail_feedback, 1) < 0)
-    //                         ERR_EXIT("adopt parent fail write error");
-    //                 }
-    //                 return fail_feedback;
-    //             }
-    //         }
-    //     }
-    // }
-    // else if (parent[0] == '#') { //第三次遞迴，找parent的值
-    //     if (strcmp(friend_name, parent + 1) == 0) {
-    //         char buf = friend_value + 2;
-    //         if (!is_Not_Tako()) {
-    //             if (write(PARENT_WRITE_FD, &buf, 1) < 0)
-    //                 ERR_EXIT("adopt parent write error");
-    //         }
-    //         return buf;
-    //     }
-    //     char ccmd[MAX_CMD_LEN], buf;
-    //     sprintf(ccmd, "Adopt %s %s", parent, child);
-    //     for (int i = 0; i < MAX_CHILDREN; i++) {
-    //         if (children[i] == NULL) {
-    //             if (!is_Not_Tako()) {
-    //                 if (write(PARENT_WRITE_FD, &fail_feedback, 1) < 0)
-    //                     ERR_EXIT("adopt parent fail write error");
-    //             }
-    //             return fail_feedback;
-    //         }
-    //         if (write(children[i]->write_fd, ccmd,
-    //                     strlen(ccmd)) < 0 ||
-    //             write(children[i]->write_fd, "\n", 1) < 0)
-    //             ERR_EXIT("adopt child write error");
-    //         if (read(children[i]->read_fd, &buf, 1) < 0)
-    //             ERR_EXIT("adopt child read error");
-    //         if (buf != fail_feedback) {
-    //             if (!is_Not_Tako()) {
-    //                 if (write(PARENT_WRITE_FD, &buf, 1) < 0)
-    //                     ERR_EXIT("adopt parent write error");
-    //             }
-    //             return buf;
-    //         }
-    //     }
-    // }
-    // else
-	 if (parent[0] == '$') { //第四次遞迴，把資料送進FIFO
+	if (parent[0] == '$') { //第四次遞迴，把資料送進FIFO
         if (strcmp(friend_name, child) == 0) {
             int fd = open("Adopt.fifo", O_WRONLY);
             if (fd < 0)
@@ -439,13 +342,6 @@ char Adopt(char *parent, char *child) {
     }
     else if (is_Not_Tako()) {
         char check_parent[MAX_CMD_LEN];
-        // sprintf(check_parent, "!%s", parent);
-        // if (Adopt(check_parent, child) == fail_feedback) {
-        //     print_fail_adopt(parent, child);
-        //     return fail_feedback;
-        // }
-        // sprintf(check_parent, "#%s", parent);
-        // int parent_value = Adopt(check_parent, child) - 2;
 		int parent_value = 100;
         if (mkfifo("Adopt.fifo", 0666) < 0 && errno != EEXIST)
             ERR_EXIT("mkfifo error");
