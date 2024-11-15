@@ -273,13 +273,6 @@ char Adopt(char *parent, char *child) {
                     if (write(fd, ccmd, strlen(ccmd)) < 0 ||
                         write(fd, "\n", 1) < 0)
                         ERR_EXIT("adopt write fifo error");
-                    // sprintf(ccmd, "Adopt %s %s", parent, child);
-                    // if (write(old_friend->write_fd, ccmd,
-                    //             strlen(ccmd)) < 0 ||
-                    //     write(old_friend->write_fd, "\n", 1) < 0)
-                    //     ERR_EXIT("adopt child write error");
-                    // if (read(old_friend->read_fd, &buf, 1) < 0)
-                    //     ERR_EXIT("adopt child read error");
                     sprintf(ccmd, "end");
                     if (write(fd, ccmd,
                                 strlen(ccmd)) < 0 ||
