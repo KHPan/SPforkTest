@@ -53,52 +53,6 @@ static inline bool is_Not_Tako() {
     return (strcmp(friend_name, root) == 0);
 }
 
-// a bunch of prints for you
-// void print_direct_meet(char *new_friend_name) {
-//     if (show)
-//         fprintf(stdout, "Not_Tako has met %s by himself\n", new_friend_name);
-// }
-
-// void print_indirect_meet(char *parent_friend_name, char *child_friend_name) {
-//     if (show)
-//         fprintf(stdout, "Not_Tako has met %s through %s\n", child_friend_name, parent_friend_name);
-// }
-
-// void print_fail_meet(char *parent_friend_name, char *child_friend_name) {
-//     if (show)
-//         fprintf(stdout, "Not_Tako does not know %s to meet %s\n", parent_friend_name, child_friend_name);
-// }
-
-// void print_fail_check(char *parent_friend_name){
-//     if (show)
-//         fprintf(stdout, "Not_Tako has checked, he doesn't know %s\n", parent_friend_name);
-// }
-
-// void print_success_adopt(char *parent_friend_name, char *child_friend_name) {
-//     if (show)
-//         fprintf(stdout, "%s has adopted %s\n", parent_friend_name, child_friend_name);
-// }
-
-// void print_fail_adopt(char *parent_friend_name, char *child_friend_name) {
-//     if (show)
-//         fprintf(stdout, "%s is a descendant of %s\n", parent_friend_name, child_friend_name);
-// }
-
-// void print_compare_gtr(char *new_friend_name){
-//     if (show)
-//         fprintf(stdout, "Not_Tako is still friends with %s\n", new_friend_name);
-// }
-
-// void print_compare_leq(char *new_friend_name){
-//     if (show)
-//         fprintf(stdout, "%s is dead to Not_Tako\n", new_friend_name);
-// }
-
-// void print_final_graduate(){
-//     if (show)
-//         fprintf(stdout, "Congratulations! You've finished Not_Tako's annoying tasks!\n");
-// }
-
 void Meet(char *parent, char *child) {
 	int fds[2][2];
 	if (pipe(fds[0]) < 0 || pipe(fds[1]) < 0) {
@@ -161,7 +115,6 @@ void Meet(char *parent, char *child) {
 			ERR_EXIT("children array full");
 	}
 	if (is_Not_Tako()) {
-		// print_direct_meet(new_friend->name);
 	} else {
 		if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
 			ERR_EXIT("meet parent success write error");
@@ -262,7 +215,6 @@ char Adopt(char *parent, char *child) {
         fclose(fp);
         if (unlink("Adopt.fifo") < 0)
             ERR_EXIT("unlink error");
-        // print_success_adopt(parent, child);
     }
     return success_feedback;
 }
@@ -281,17 +233,12 @@ int main(int argc, char *argv[]) {
     strncpy(friend_info, argv[1], MAX_FRIEND_INFO_LEN);
     
     if(strcmp(argv[1], root) == 0){
-        // is Not_Tako
-        // strncpy(friend_name, friend_info,MAX_FRIEND_NAME_LEN);      // put name into friend_nae
-        // friend_name[MAX_FRIEND_NAME_LEN - 1] = '\0';        // in case strcmp messes with you
         memset(friend_name, 0, MAX_FRIEND_NAME_LEN);
         strcpy(friend_name, root);
         read_fp = stdin;        // takes commands from stdin
         friend_value = 100;     // Not_Tako adopting nodes will not mod their values
     }
     else{
-        // is other friends
-        // extract name and value from info
         char *sep = strchr(friend_info, '_');
         memset(friend_name, 0, MAX_FRIEND_NAME_LEN);
         strncpy(friend_name, friend_info, sep - friend_info);
@@ -301,7 +248,6 @@ int main(int argc, char *argv[]) {
         if (read_fp == NULL) {
             ERR_EXIT("fdopen error");
         }
-        // anything else you have to do before you start taking commands?
         fclose(stdin);
         // fclose(stdout);
     }
