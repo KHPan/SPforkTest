@@ -155,9 +155,11 @@ void Meet(char *parent, char *child) {
         //         Hint: remember to fully understand how fork works, what it copies or doesn't
         //     check if you are parent or child
         if (pid == 0) {
-            // if (is_Not_Tako()) {
-            //     fclose(stdin);
-            // }
+			#ifdef CLOSE
+            if (is_Not_Tako()) {
+                fclose(stdin);
+            }
+			#endif
             for (int i = 0; i < MAX_CHILDREN; i++) {
                 if (children[i] != NULL) {
                     if (close(children[i]->read_fd) < 0)
@@ -578,8 +580,10 @@ char Adopt(char *parent, char *child) {
                 if (fork_pid < 0)
                     ERR_EXIT("fork error");
                 if (fork_pid == 0) {
-                    // if (is_Not_Tako())
-                    //     fclose(stdin);
+					#ifdef CLOSE
+                    if (is_Not_Tako())
+                        fclose(stdin);
+					#endif
                     int fd = open("Adopt.fifo", O_WRONLY);
                     if (fd < 0)
                         ERR_EXIT("open fifo error");
@@ -751,7 +755,8 @@ int main(int argc, char *argv[]) {
             continue;
         char command_copy[MAX_CMD_LEN];
         strcpy(command_copy, command);
-		fprintf(stderr, "%lld command: %s\n", getpid(), command);
+		if (is_Not_Tako())
+			fprintf(stderr, "%lld command: %s\n", getpid(), command);
         //TODO:
         // you may follow SOP if you wish, but it is not guaranteed to consider every possible outcome
 
