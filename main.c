@@ -66,6 +66,7 @@ static char friend_info[MAX_FRIEND_INFO_LEN];   // current process info
 static char friend_name[MAX_FRIEND_NAME_LEN];   // current process name
 static int friend_value;    // current process value
 FILE* read_fp = NULL;
+char program_name[MAX_CMD_LEN]; // program name
 
 friend *children[MAX_CHILDREN] = {0}; // array of children
 char command[MAX_CMD_LEN]; // command buffer
@@ -184,7 +185,7 @@ void Meet(char *parent, char *child) {
                     ERR_EXIT("dup2 error");
                 close(fds[1][0]);
             }
-            execlp("./friend", "./friend", child, NULL);
+            execlp(program_name, program_name, child, NULL);
         }
         //     as parent or child, think about what you do next.
         //         Hint: child needs to run this program again
@@ -701,6 +702,7 @@ char Adopt(char *parent, char *child) {
 }
 
 int main(int argc, char *argv[]) {
+	strcpy(program_name, argv[0]);
     // Hi! Welcome to SP Homework 2, I hope you have fun
     process_pid = getpid(); // you might need this when using fork()
     if (argc != 2) {
