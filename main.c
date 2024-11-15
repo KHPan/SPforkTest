@@ -178,17 +178,17 @@ int main(int argc, char *argv[]) {
         friend_value = 100;     // Not_Tako adopting nodes will not mod their values
     }
     else{
-        char *sep = strchr(friend_info, '_');
-        memset(friend_name, 0, MAX_FRIEND_NAME_LEN);
-        strncpy(friend_name, friend_info, sep - friend_info);
-        friend_value = atoi(sep + 1);
-        // where do you read from?
-        read_fp = fdopen(PARENT_READ_FD, "r");
-        if (read_fp == NULL) {
-            ERR_EXIT("fdopen error");
-        }
-        fclose(stdin);
-        // fclose(stdout);
+        // char *sep = strchr(friend_info, '_');
+        // memset(friend_name, 0, MAX_FRIEND_NAME_LEN);
+        // strncpy(friend_name, friend_info, sep - friend_info);
+        // friend_value = atoi(sep + 1);
+        // // where do you read from?
+        // read_fp = fdopen(PARENT_READ_FD, "r");
+        // if (read_fp == NULL) {
+        //     ERR_EXIT("fdopen error");
+        // }
+        // fclose(stdin);
+        // // fclose(stdout);
 		int i = 0;
 		for (i = 0; i > -1; i++);
     }
