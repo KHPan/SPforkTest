@@ -30,14 +30,12 @@ void Adopt() {
 
 int main() {
 	char command[1024];
+    Adopt();
     for (int i = 0; fgets(command, 1024, stdin) != NULL; i++) {
 		if (command[strlen(command)-1] == '\n')
 			command[strlen(command)-1] = '\0';
 		fprintf(stderr, "%lld command: %s\n", (long long)getpid(), command);
 			
-        if (i == 2) {
-            Adopt();
-		}
     }
 	return 0;
 }
