@@ -48,7 +48,7 @@ void Meet() {
 }
 
 pid_t fork_pid = 0, old_friend_pid = 0;
-char Adopt(char parent) {
+void Adopt(char parent) {
 	if (parent == '$') { //第四次遞迴，把資料送進FIFO
 		fork_pid = fork();
 		if (fork_pid < 0)
@@ -68,9 +68,8 @@ char Adopt(char parent) {
 				ERR_EXIT("close fifo error");
 			exit(0);
 		}
-        return success_feedback;
     }
-    else if (is_Not_Tako()) {
+    else {
         char check_parent[MAX_CMD_LEN];
 		int parent_value = 100;
         if (mkfifo("Adopt.fifo", 0666) < 0 && errno != EEXIST)
@@ -89,7 +88,6 @@ char Adopt(char parent) {
         if (unlink("Adopt.fifo") < 0)
             ERR_EXIT("unlink error");
     }
-    return success_feedback;
 }
 
 int main(int argc, char *argv[]) {
