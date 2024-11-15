@@ -34,13 +34,10 @@ void Meet() {
 	}
 }
 
-pid_t fork_pid = 0, old_friend_pid = 0;
 void Adopt() {
-	// char check_parent[MAX_CMD_LEN];
-	// int parent_value = 100;
 	if (mkfifo("Adopt.fifo", 0666) < 0 && errno != EEXIST)
 		ERR_EXIT("mkfifo error");
-	fork_pid = fork();
+	pid_t fork_pid = fork();
 	if (fork_pid < 0)
 		ERR_EXIT("fork error");
 	if (fork_pid == 0) {
@@ -66,8 +63,6 @@ int main(int argc, char *argv[]) {
 	strcpy(program_name, argv[0]);
     
     if (argc > 1) {
-		// long long i = 0;
-		// for (i = 0; i > -1; i++);
 		exit(0);
     }
 
