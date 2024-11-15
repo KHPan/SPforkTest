@@ -60,23 +60,6 @@ void Meet(char *parent, char *child) {
 	if (pid == 0) {
 		close(fds[0][0]);
 		close(fds[1][1]);
-		// if (fds[0][1] != PARENT_WRITE_FD) {
-		// 	if (fds[1][0] == PARENT_WRITE_FD) {
-		// 		int new_fd = dup(fds[1][0]);
-		// 		if (new_fd < 0)
-		// 			ERR_EXIT("dup error");
-		// 		close(fds[1][0]);
-		// 		fds[1][0] = new_fd;
-		// 	}
-		// 	if (dup2(fds[0][1], PARENT_WRITE_FD) < 0)
-		// 		ERR_EXIT("dup2 error");
-		// 	close(fds[0][1]);
-		// }
-		// if (fds[1][0] != PARENT_READ_FD) {
-		// 	if (dup2(fds[1][0], PARENT_READ_FD) < 0)
-		// 		ERR_EXIT("dup2 error");
-		// 	close(fds[1][0]);
-		// }
 		execlp(program_name, program_name, child, NULL);
 	}
 	close(fds[0][1]);
