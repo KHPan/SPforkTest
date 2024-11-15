@@ -18,15 +18,9 @@
 
 #define ERR_EXIT(s) perror(s), exit(errno)
 
-char fail_feedback = 1;
-char success_feedback = 0;
-pid_t process_pid;
-
 // somethings I recommend leaving here, but you may delete as you please
 static char root[MAX_FRIEND_INFO_LEN] = "Not_Tako";     // root of tree
-static char friend_info[MAX_FRIEND_INFO_LEN];   // current process info
 static char friend_name[MAX_FRIEND_NAME_LEN];   // current process name
-static int friend_value;    // current process value
 FILE* read_fp = NULL;
 char program_name[MAX_CMD_LEN]; // program name
 
@@ -96,7 +90,6 @@ int main(int argc, char *argv[]) {
     if(strcmp(argv[1], root) == 0){
         strcpy(friend_name, root);
         read_fp = stdin;        // takes commands from stdin
-        friend_value = 100;     // Not_Tako adopting nodes will not mod their values
     }
     else{
 		long long i = 0;
