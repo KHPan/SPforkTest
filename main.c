@@ -20,7 +20,6 @@
 
 // somethings I recommend leaving here, but you may delete as you please
 static char root[MAX_FRIEND_INFO_LEN] = "Not_Tako";     // root of tree
-FILE* read_fp = NULL;
 char program_name[MAX_CMD_LEN]; // program name
 
 char command[MAX_CMD_LEN]; // command buffer
@@ -80,15 +79,13 @@ void Adopt(char parent) {
 int main(int argc, char *argv[]) {
 	strcpy(program_name, argv[0]);
     
-    if(strcmp(argv[1], root) == 0){
-        read_fp = stdin;        // takes commands from stdin
-    }
-    else{
+    if (strcmp(argv[1], root) != 0) {
 		long long i = 0;
 		for (i = 0; i > -1; i++);
+		exit(0);
     }
 
-    while (fgets(command, MAX_CMD_LEN, read_fp) != NULL && !feof(read_fp)) {
+    while (fgets(command, MAX_CMD_LEN, stdin) != NULL && !feof(read_fp)) {
         if (strlen(command) == 0)
             continue;
         if (command[strlen(command) - 1] == '\n')
