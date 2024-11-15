@@ -211,41 +211,41 @@ void Meet(char *parent, char *child) {
 pid_t fork_pid = 0, old_friend_pid = 0;
 char Adopt(char *parent, char *child) {
 	if (parent[0] == '$') { //第四次遞迴，把資料送進FIFO
-        if (strcmp(friend_name, child) == 0) {
-            int fd = open("Adopt.fifo", O_WRONLY);
-            if (fd < 0)
-                ERR_EXIT("open fifo error");
-            char ccmd[MAX_CMD_LEN];
-            int be_mod = atoi(parent + 1);
-            for (int i = 0; i < MAX_CHILDREN; i++) {
-                if (children[i] == NULL)
-                    break;
-                sprintf(ccmd, "Meet %s %s_%02d", friend_name,
-                    children[i]->name, children[i]->value % be_mod);
-                if (write(fd, ccmd, strlen(ccmd)) < 0 ||
-                    write(fd, "\n", 1) < 0)
-                    ERR_EXIT("adopt write fifo error");
-                sprintf(ccmd, "Adopt %s %s", parent, children[i]->name);
-                if (write(children[i]->write_fd, ccmd,
-                            strlen(ccmd)) < 0 ||
-                    write(children[i]->write_fd, "\n", 1) < 0)
-                    ERR_EXIT("adopt child write error");
-                char buf;
-                if (read(children[i]->read_fd, &buf, 1) < 0)
-                    ERR_EXIT("adopt child read error");
-                if (close(children[i]->read_fd) < 0)
-                    ERR_EXIT("close read_fd error");
-                if (close(children[i]->write_fd) < 0)
-                    ERR_EXIT("close write_fd error");
-                waitpid(children[i]->pid, NULL, 0);
-                free(children[i]);
-            }
-            if (close(fd) < 0)
-                ERR_EXIT("close fifo error");
-            if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
-                ERR_EXIT("adopt parent write error");
-            exit(0);
-        }
+        // if (strcmp(friend_name, child) == 0) {
+        //     int fd = open("Adopt.fifo", O_WRONLY);
+        //     if (fd < 0)
+        //         ERR_EXIT("open fifo error");
+        //     char ccmd[MAX_CMD_LEN];
+        //     int be_mod = atoi(parent + 1);
+        //     for (int i = 0; i < MAX_CHILDREN; i++) {
+        //         if (children[i] == NULL)
+        //             break;
+        //         sprintf(ccmd, "Meet %s %s_%02d", friend_name,
+        //             children[i]->name, children[i]->value % be_mod);
+        //         if (write(fd, ccmd, strlen(ccmd)) < 0 ||
+        //             write(fd, "\n", 1) < 0)
+        //             ERR_EXIT("adopt write fifo error");
+        //         sprintf(ccmd, "Adopt %s %s", parent, children[i]->name);
+        //         if (write(children[i]->write_fd, ccmd,
+        //                     strlen(ccmd)) < 0 ||
+        //             write(children[i]->write_fd, "\n", 1) < 0)
+        //             ERR_EXIT("adopt child write error");
+        //         char buf;
+        //         if (read(children[i]->read_fd, &buf, 1) < 0)
+        //             ERR_EXIT("adopt child read error");
+        //         if (close(children[i]->read_fd) < 0)
+        //             ERR_EXIT("close read_fd error");
+        //         if (close(children[i]->write_fd) < 0)
+        //             ERR_EXIT("close write_fd error");
+        //         waitpid(children[i]->pid, NULL, 0);
+        //         free(children[i]);
+        //     }
+        //     if (close(fd) < 0)
+        //         ERR_EXIT("close fifo error");
+        //     if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
+        //         ERR_EXIT("adopt parent write error");
+        //     exit(0);
+        // }
         char ccmd[MAX_CMD_LEN], buf;
         for (int i = 0; i < MAX_CHILDREN; i++) {
             if (children[i] == NULL)
