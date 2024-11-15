@@ -63,17 +63,6 @@ void Meet(char *parent, char *child) {
 		ERR_EXIT("fork error");
 	}
 	if (pid == 0) {
-		// if (is_Not_Tako()) {
-		// 	fclose(stdin);
-		// }
-		// for (int i = 0; i < MAX_CHILDREN; i++) {
-		// 	if (children[i] != NULL) {
-		// 		if (close(children[i]->read_fd) < 0)
-		// 			ERR_EXIT("close read_fd error");
-		// 		if (close(children[i]->write_fd) < 0)
-		// 			ERR_EXIT("close write_fd error");
-		// 	}
-		// }
 		close(fds[0][0]);
 		close(fds[1][1]);
 		if (fds[0][1] != PARENT_WRITE_FD) {
@@ -100,12 +89,6 @@ void Meet(char *parent, char *child) {
 	friend *new_friend = (friend *)malloc(sizeof(friend));
 	if (new_friend == NULL)
 		ERR_EXIT("malloc new_friend error");
-	// new_friend->pid = pid;
-	// new_friend->read_fd = fds[0][0];
-	// new_friend->write_fd = fds[1][1];
-	// strcpy(new_friend->info, child);
-	// strcpy(new_friend->name, strtok(child, "_"));
-	// new_friend->value = atoi(strtok(NULL, "_"));
 	strcpy(new_friend->name, child);
 	for (int i = 0; i < MAX_CHILDREN; i++) {
 		if (children[i] == NULL) {
