@@ -24,8 +24,8 @@ void Adopt() {
 		#endif
 		exit(0);
 	}
-	if (unlink("Adopt.fifo") < 0)
-		ERR_EXIT("unlink error");
+	// if (unlink("Adopt.fifo") < 0)
+	// 	ERR_EXIT("unlink error");
 }
 
 int main() {
