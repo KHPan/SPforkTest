@@ -126,8 +126,8 @@ char Adopt(char *parent, char *child) {
 	if (parent[0] == '$') { //第四次遞迴，把資料送進FIFO
         char ccmd[MAX_CMD_LEN], buf;
         for (int i = 0; i < MAX_CHILDREN; i++) {
-            if (children[i] == NULL)
-                break;
+            // if (children[i] == NULL)
+            //     break;
 			friend *old_friend = children[i];
 			for (int j = i; j < MAX_CHILDREN - 1; j++) {
 				children[j] = children[j + 1];
