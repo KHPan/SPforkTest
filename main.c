@@ -43,7 +43,6 @@ void Adopt() {
 	}
 
 	FILE *fp = fopen("Adopt.fifo", "r");
-	// sleep(1);
 	fclose(fp);
 	if (unlink("Adopt.fifo") < 0)
 		ERR_EXIT("unlink error");
