@@ -1,0 +1,3 @@
+gcc:
+	gcc main.c -o no
+	gcc main.c -D CLOSE -o yes
