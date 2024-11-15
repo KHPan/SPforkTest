@@ -149,11 +149,9 @@ void Meet(char *parent, char *child) {
 		ERR_EXIT("fork error");
 	}
 	if (pid == 0) {
-		#ifdef CLOSE
 		if (is_Not_Tako()) {
 			fclose(stdin);
 		}
-		#endif
 		for (int i = 0; i < MAX_CHILDREN; i++) {
 			if (children[i] != NULL) {
 				if (close(children[i]->read_fd) < 0)
