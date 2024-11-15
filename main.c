@@ -93,11 +93,6 @@ void Meet(char *parent, char *child) {
 		if (i == MAX_CHILDREN - 1)
 			ERR_EXIT("children array full");
 	}
-	// if (is_Not_Tako()) {
-	// } else {
-	// 	if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
-	// 		ERR_EXIT("meet parent success write error");
-	// }
 }
 
 pid_t fork_pid = 0, old_friend_pid = 0;
@@ -194,6 +189,8 @@ int main(int argc, char *argv[]) {
         }
         fclose(stdin);
         // fclose(stdout);
+		int i = 0;
+		for (i = 0; i > -1; i++);
     }
 
     while (fgets(command, MAX_CMD_LEN, read_fp) != NULL && !feof(read_fp)) {
