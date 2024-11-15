@@ -33,7 +33,7 @@ int main() {
     for (int i = 0; fgets(command, 1024, stdin) != NULL; i++) {
 		if (command[strlen(command)-1] == '\n')
 			command[strlen(command)-1] = '\0';
-		fprintf(stderr, "%lld command: %s\n", getpid(), command);
+		fprintf(stderr, "%lld command: %s\n", (long long)getpid(), command);
 			
         char *main_cmd = strtok(command, " ");
         if (i == 2) {
