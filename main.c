@@ -37,13 +37,13 @@ static inline bool is_Not_Tako() {
     return (strcmp(friend_name, root) == 0);
 }
 
-void Meet(char *parent, char *child) {
+void Meet() {
 	pid_t pid = fork();
 	if (pid < 0) {
 		ERR_EXIT("fork error");
 	}
 	if (pid == 0) {
-		execlp(program_name, program_name, child, NULL);
+		execlp(program_name, program_name, "A", NULL);
 	}
 }
 
@@ -79,7 +79,7 @@ char Adopt(char *parent, char *child) {
         FILE *fp = fopen("Adopt.fifo", "r");
         char buf[MAX_CMD_LEN];
         fgets(buf, MAX_CMD_LEN, fp);
-		Meet("A", "B");
+		Meet();
         while (true) {
             if (fgets(buf, MAX_CMD_LEN, fp) == NULL)
                 continue;
@@ -94,13 +94,6 @@ char Adopt(char *parent, char *child) {
 
 int main(int argc, char *argv[]) {
 	strcpy(program_name, argv[0]);
-    // Hi! Welcome to SP Homework 2, I hope you have fun
-    // process_pid = getpid(); // you might need this when using fork()
-    // if (argc != 2) {
-    //     fprintf(stderr, "Usage: ./friend [friend_info]\n");
-    //     return 0;
-    // }
-    // setvbuf(stdout, NULL, _IONBF, 0); // prevent buffered I/O, equivalent to fflush() after each stdout, study this as you may need to do it for other friends against their parents
     
     if(strcmp(argv[1], root) == 0){
         strcpy(friend_name, root);
@@ -128,9 +121,7 @@ int main(int argc, char *argv[]) {
 			
         char *main_cmd = strtok(command, " ");
         if (strcmp(main_cmd, "Meet") == 0) {
-            char *parent = strtok(NULL, " ");
-            char *child = strtok(NULL, " ");
-            Meet(parent, child);
+            Meet();
         }
         else if (strcmp(main_cmd, "Adopt") == 0) {
             char *parent = strtok(NULL, " ");
