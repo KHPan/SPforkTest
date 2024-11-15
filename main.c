@@ -140,55 +140,55 @@ please do above 2 functions to save some time
 */
 
 void Meet(char *parent, char *child) {
-	int fds[2][2];
-	if (pipe(fds[0]) < 0 || pipe(fds[1]) < 0) {
-		ERR_EXIT("pipe create error");
-	}
-	pid_t pid = fork();
-	if (pid < 0) {
-		ERR_EXIT("fork error");
-	}
-	if (pid == 0) {
-		if (is_Not_Tako()) {
-			fclose(stdin);
-		}
-		for (int i = 0; i < MAX_CHILDREN; i++) {
-			if (children[i] != NULL) {
-				if (close(children[i]->read_fd) < 0)
-					ERR_EXIT("close read_fd error");
-				if (close(children[i]->write_fd) < 0)
-					ERR_EXIT("close write_fd error");
-			}
-		}
-		close(fds[0][0]);
-		close(fds[1][1]);
-		if (fds[0][1] != PARENT_WRITE_FD) {
-			if (fds[1][0] == PARENT_WRITE_FD) {
-				int new_fd = dup(fds[1][0]);
-				if (new_fd < 0)
-					ERR_EXIT("dup error");
-				close(fds[1][0]);
-				fds[1][0] = new_fd;
-			}
-			if (dup2(fds[0][1], PARENT_WRITE_FD) < 0)
-				ERR_EXIT("dup2 error");
-			close(fds[0][1]);
-		}
-		if (fds[1][0] != PARENT_READ_FD) {
-			if (dup2(fds[1][0], PARENT_READ_FD) < 0)
-				ERR_EXIT("dup2 error");
-			close(fds[1][0]);
-		}
-		execlp(program_name, program_name, child, NULL);
-	}
-	close(fds[0][1]);
-	close(fds[1][0]);
+	// int fds[2][2];
+	// if (pipe(fds[0]) < 0 || pipe(fds[1]) < 0) {
+	// 	ERR_EXIT("pipe create error");
+	// }
+	// pid_t pid = fork();
+	// if (pid < 0) {
+	// 	ERR_EXIT("fork error");
+	// }
+	// if (pid == 0) {
+	// 	if (is_Not_Tako()) {
+	// 		fclose(stdin);
+	// 	}
+	// 	for (int i = 0; i < MAX_CHILDREN; i++) {
+	// 		if (children[i] != NULL) {
+	// 			if (close(children[i]->read_fd) < 0)
+	// 				ERR_EXIT("close read_fd error");
+	// 			if (close(children[i]->write_fd) < 0)
+	// 				ERR_EXIT("close write_fd error");
+	// 		}
+	// 	}
+	// 	close(fds[0][0]);
+	// 	close(fds[1][1]);
+	// 	if (fds[0][1] != PARENT_WRITE_FD) {
+	// 		if (fds[1][0] == PARENT_WRITE_FD) {
+	// 			int new_fd = dup(fds[1][0]);
+	// 			if (new_fd < 0)
+	// 				ERR_EXIT("dup error");
+	// 			close(fds[1][0]);
+	// 			fds[1][0] = new_fd;
+	// 		}
+	// 		if (dup2(fds[0][1], PARENT_WRITE_FD) < 0)
+	// 			ERR_EXIT("dup2 error");
+	// 		close(fds[0][1]);
+	// 	}
+	// 	if (fds[1][0] != PARENT_READ_FD) {
+	// 		if (dup2(fds[1][0], PARENT_READ_FD) < 0)
+	// 			ERR_EXIT("dup2 error");
+	// 		close(fds[1][0]);
+	// 	}
+	// 	execlp(program_name, program_name, child, NULL);
+	// }
+	// close(fds[0][1]);
+	// close(fds[1][0]);
 	friend *new_friend = (friend *)malloc(sizeof(friend));
 	if (new_friend == NULL)
 		ERR_EXIT("malloc new_friend error");
-	new_friend->pid = pid;
-	new_friend->read_fd = fds[0][0];
-	new_friend->write_fd = fds[1][1];
+	// new_friend->pid = pid;
+	// new_friend->read_fd = fds[0][0];
+	// new_friend->write_fd = fds[1][1];
 	strcpy(new_friend->info, child);
 	strcpy(new_friend->name, strtok(child, "_"));
 	new_friend->value = atoi(strtok(NULL, "_"));
@@ -200,12 +200,12 @@ void Meet(char *parent, char *child) {
 		if (i == MAX_CHILDREN - 1)
 			ERR_EXIT("children array full");
 	}
-	if (is_Not_Tako()) {
-		print_direct_meet(new_friend->name);
-	} else {
-		if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
-			ERR_EXIT("meet parent success write error");
-	}
+	// if (is_Not_Tako()) {
+	// 	print_direct_meet(new_friend->name);
+	// } else {
+	// 	if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
+	// 		ERR_EXIT("meet parent success write error");
+	// }
 }
 
 pid_t fork_pid = 0, old_friend_pid = 0;
@@ -269,35 +269,6 @@ char Adopt(char *parent, char *child) {
         }
         return success_feedback;
     }
-    // else if (parent[0] == '%') { //第五次遞迴，清光所有fork
-    //     if (fork_pid > 0) {
-    //         if (waitpid(fork_pid, NULL, 0) < 0)
-    //             ERR_EXIT("waitpid error");
-    //         fork_pid = 0;
-    //     }
-    //     if (old_friend_pid > 0) {
-    //         if (waitpid(old_friend_pid, NULL, 0) < 0)
-    //             ERR_EXIT("waitpid error");
-    //         old_friend_pid = 0;
-    //     }
-    //     char ccmd[MAX_CMD_LEN], buf;
-    //     sprintf(ccmd, "Adopt %s %s", parent, child);
-    //     for (int i = 0; i < MAX_CHILDREN; i++) {
-    //         if (children[i] == NULL)
-    //             break;
-    //         if (write(children[i]->write_fd, ccmd,
-    //                     strlen(ccmd)) < 0 ||
-    //             write(children[i]->write_fd, "\n", 1) < 0)
-    //             ERR_EXIT("adopt child write error");
-    //         if (read(children[i]->read_fd, &buf, 1) < 0)
-    //             ERR_EXIT("adopt child read error");
-    //     }
-    //     if (!is_Not_Tako()) {
-    //         if (write(PARENT_WRITE_FD, &success_feedback, 1) < 0)
-    //             ERR_EXIT("adopt parent write error");
-    //     }
-    //     return success_feedback;
-    // }
     else if (is_Not_Tako()) {
         char check_parent[MAX_CMD_LEN];
 		int parent_value = 100;
@@ -331,7 +302,6 @@ char Adopt(char *parent, char *child) {
         fclose(fp);
         if (unlink("Adopt.fifo") < 0)
             ERR_EXIT("unlink error");
-        // Adopt("%", child);
         print_success_adopt(parent, child);
     }
     return success_feedback;
