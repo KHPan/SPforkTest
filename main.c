@@ -49,21 +49,21 @@ static inline bool is_Not_Tako() {
 }
 
 void Meet(char *parent, char *child) {
-	int fds[2][2];
-	if (pipe(fds[0]) < 0 || pipe(fds[1]) < 0) {
-		ERR_EXIT("pipe create error");
-	}
+	// int fds[2][2];
+	// if (pipe(fds[0]) < 0 || pipe(fds[1]) < 0) {
+	// 	ERR_EXIT("pipe create error");
+	// }
 	pid_t pid = fork();
 	if (pid < 0) {
 		ERR_EXIT("fork error");
 	}
 	if (pid == 0) {
-		close(fds[0][0]);
-		close(fds[1][1]);
+		// close(fds[0][0]);
+		// close(fds[1][1]);
 		execlp(program_name, program_name, child, NULL);
 	}
-	close(fds[0][1]);
-	close(fds[1][0]);
+	// close(fds[0][1]);
+	// close(fds[1][0]);
 	friend *new_friend = (friend *)malloc(sizeof(friend));
 	if (new_friend == NULL)
 		ERR_EXIT("malloc new_friend error");
