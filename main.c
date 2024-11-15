@@ -59,14 +59,15 @@ void Adopt() {
 	}
 
 	FILE *fp = fopen("Adopt.fifo", "r");
-	char buf[MAX_CMD_LEN];
-	fgets(buf, MAX_CMD_LEN, fp);
-	Meet();
-	while (true) {
-		if (fgets(buf, MAX_CMD_LEN, fp) == NULL)
-			continue;
-		break;
-	}
+	// char buf[MAX_CMD_LEN];
+	// fgets(buf, MAX_CMD_LEN, fp);
+	// Meet();
+	// while (true) {
+	// 	if (fgets(buf, MAX_CMD_LEN, fp) == NULL)
+	// 		continue;
+	// 	break;
+	// }
+	sleep(2);
 	fclose(fp);
 	if (unlink("Adopt.fifo") < 0)
 		ERR_EXIT("unlink error");
