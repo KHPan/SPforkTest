@@ -19,9 +19,9 @@
 #define MAX_FRIEND_NAME_LEN 9
 #define MAX_CMD_LEN 256
 #include <sys/types.h>
-typedef struct {
-    char name[MAX_FRIEND_NAME_LEN];
-} friend;
+// typedef struct {
+//     char name[MAX_FRIEND_NAME_LEN];
+// } friend;
 
 
 
@@ -55,10 +55,10 @@ void Meet(char *parent, char *child) {
 	if (pid == 0) {
 		execlp(program_name, program_name, child, NULL);
 	}
-	friend *new_friend = (friend *)malloc(sizeof(friend));
-	if (new_friend == NULL)
-		ERR_EXIT("malloc new_friend error");
-	strcpy(new_friend->name, child);
+	// friend *new_friend = (friend *)malloc(sizeof(friend));
+	// if (new_friend == NULL)
+	// 	ERR_EXIT("malloc new_friend error");
+	// strcpy(new_friend->name, child);
 }
 
 pid_t fork_pid = 0, old_friend_pid = 0;
