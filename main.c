@@ -95,18 +95,14 @@ char Adopt(char *parent, char *child) {
 int main(int argc, char *argv[]) {
 	strcpy(program_name, argv[0]);
     // Hi! Welcome to SP Homework 2, I hope you have fun
-    process_pid = getpid(); // you might need this when using fork()
-    if (argc != 2) {
-        fprintf(stderr, "Usage: ./friend [friend_info]\n");
-        return 0;
-    }
-    setvbuf(stdout, NULL, _IONBF, 0); // prevent buffered I/O, equivalent to fflush() after each stdout, study this as you may need to do it for other friends against their parents
-    
-    // put argument one into friend_info
-    // strncpy(friend_info, argv[1], MAX_FRIEND_INFO_LEN);
+    // process_pid = getpid(); // you might need this when using fork()
+    // if (argc != 2) {
+    //     fprintf(stderr, "Usage: ./friend [friend_info]\n");
+    //     return 0;
+    // }
+    // setvbuf(stdout, NULL, _IONBF, 0); // prevent buffered I/O, equivalent to fflush() after each stdout, study this as you may need to do it for other friends against their parents
     
     if(strcmp(argv[1], root) == 0){
-        // memset(friend_name, 0, MAX_FRIEND_NAME_LEN);
         strcpy(friend_name, root);
         read_fp = stdin;        // takes commands from stdin
         friend_value = 100;     // Not_Tako adopting nodes will not mod their values
