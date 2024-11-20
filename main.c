@@ -25,13 +25,19 @@ void Adopt() {
 		ERR_EXIT("unlink error");
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+	int adopt = 2;
+	if (argc > 1) {
+		adopt = atoi(argv[1]);
+	}
 	char command[1024];
+	if (adopt < 0)
+		Adopt();
     for (int i = 0; fgets(command, 1024, stdin) != NULL; i++) {
 		if (command[strlen(command)-1] == '\n')
 			command[strlen(command)-1] = '\0';
 		fprintf(stderr, "%lld command: %s\n", (long long)getpid(), command);
-		if (i == 2)
+		if (i == adopt)
 			Adopt();
     }
 	return 0;
