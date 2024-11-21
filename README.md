@@ -9,3 +9,24 @@ make gcc
 '''
 
 直接使用
+'''bash
+./no < in.txt > out.txt
+'''
+這是沒有fclose的版本，in.txt的內容會重複出現
+
+有fclose:
+'''bash
+./yes < in.txt > out.txt
+'''
+
+去掉mkfifo:
+'''bash
+./no_mkfifo < in.txt > out.txt
+'''
+
+去掉unlink:
+'''bash
+./no_unlink < in.txt > out.txt
+'''
+
+可以在執行檔之後的argv設定Adopt執行的位置
