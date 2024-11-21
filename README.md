@@ -8,6 +8,8 @@ cd SPforkTest
 make gcc
 ```
 
+執行
+===
 直接使用
 ```bash
 ./no < in.txt > out.txt
@@ -29,4 +31,8 @@ make gcc
 ./no_unlink < in.txt > out.txt
 ```
 
-可以在執行檔之後的argv設定Adopt執行的位置
+可以在執行檔之後的argv設定Adopt執行的位置，如:
+```bash
+./no 1 < in.txt > out.txt
+```
+代表輸出第1行之後(從0開始算)執行Adopt，如果設為負就是所有fgets之前執行Adopt
