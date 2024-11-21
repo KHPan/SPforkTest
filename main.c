@@ -10,8 +10,10 @@
 #define ERR_EXIT(s) perror(s), exit(errno)
 
 void Adopt() {
+	#ifndef NO_MKFIFO
 	if (mkfifo("Adopt.fifo", 0666) < 0 && errno != EEXIST)
 		ERR_EXIT("mkfifo error");
+	#endif
 	pid_t fork_pid = fork();
 	if (fork_pid < 0)
 		ERR_EXIT("fork error");
@@ -21,8 +23,10 @@ void Adopt() {
 		#endif
 		exit(0);
 	}
-	if (unlink("Adopt.fifo") < 0)
+	#ifndef NO_UNLINK
+	if (unlink("Adopt.fifo") < 0 && errno != ENOENT)
 		ERR_EXIT("unlink error");
+	#endif
 }
 
 int main(int argc, char *argv[]) {

@@ -1,3 +1,5 @@
 gcc:
 	gcc main.c -o no
 	gcc main.c -D CLOSE -o yes
+	gcc main.c -D NO_UNLINK -o no_unlink
+	gcc main.c -D NO_MKFIFO -o no_mkfifo
